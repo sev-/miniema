@@ -767,29 +767,18 @@ modeline(WINDOW *wp)
 
   vscreen[n]->v_flag |= VFCHG | VFREQ | VFCOL;	/* Redraw next time. */
   vtmove(n, 0);			  /* Seek to right line. */
-  lchar = ' ';
+  lchar = '-';
 
   bp = wp->w_bufp;
-  if ((bp->b_flag & BFTRUNC) != 0)/* "#" if truncated */
-    vtputc('#');
-  else
-    vtputc(lchar);
+  vtputc(lchar);
 
   if ((bp->b_flag & BFCHG) != 0)  /* "*" if changed. */
     vtputc('*');
   else
     vtputc(lchar);
 
-  if ((bp->b_flag & BFNAROW) != 0)
-  {				  /* "<>" if narrowed */
-    vtputc('<');
-    vtputc('>');
-  }
-  else
-  {
-    vtputc(lchar);
-    vtputc(lchar);
-  }
+  vtputc(lchar);
+  vtputc(lchar);
 
   n = 4;
   strcpy(tline, " ");		  /* Buffer name. */
@@ -805,19 +794,6 @@ modeline(WINDOW *wp)
     strcat(tline, int_asc(wp->w_fcol));
     strcat(tline, "]");
   }
-
-  /* display the modes */
-  strcat(tline, "(");
-  firstm = TRUE;
-  for (i = 0; i < NUMMODES; i++)  /* add in the mode flags */
-    if (wp->w_bufp->b_mode & (1 << i))
-    {
-      if (firstm != TRUE)
-	strcat(tline, " ");
-      firstm = FALSE;
-      strcat(tline, modename[i]);
-    }
-  strcat(tline, ") ");
 
   cp = &tline[0];
   while ((c = *cp++) != 0)
