@@ -1,10 +1,13 @@
 /*
- *  $Id: estruct.h,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: estruct.h,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: estruct.h,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Added ttputs into tcap structure
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -270,6 +273,7 @@ typedef struct	{
 	int (PASCAL NEAR *t_beep)();	/* Beep.			*/
 	int (PASCAL NEAR *t_rev)();	/* set reverse video state	*/
 	int (PASCAL NEAR *t_rez)();	/* change screen resolution	*/
+	int (PASCAL NEAR *t_puts)();	/* put string			*/
 }	TERM;
 
 /*	TEMPORARY macros for terminal I/O  (to be placed in a machine
@@ -286,6 +290,7 @@ typedef struct	{
 #define	TTeeol		(*term.t_eeol)
 #define	TTbeep		(*term.t_beep)
 #define	TTrev		(*term.t_rev)
+#define	TTputs		(*term.t_puts)
 
 /*	Structure for the table of current key bindings 	*/
 

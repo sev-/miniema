@@ -1,10 +1,13 @@
 /*
- *  $Id: ebind.h,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: ebind.h,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: ebind.h,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Added mainmenu key
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -36,6 +39,7 @@ NOSHARE KEYTAB	keytab[NBINDS] = {
 	{CTRL|'M',		BINDFNC,	newline},
 	{CTRL|'N',		BINDFNC,	forwline},
 	{CTRL|'P',		BINDFNC,	backline},
+	{CTRL|'O',		BINDFNC,	mainmenu},
 	{CTRL|'Q',		BINDFNC,	quote},
 	{CTRL|'R',		BINDFNC,	backsearch},
 	{CTRL|'S',		BINDFNC,	forwsearch},

@@ -1,10 +1,13 @@
 /*
- *  $Id: unix.c,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: unix.c,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: unix.c,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Patched ^Q ^S bug and added ttputs function
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -47,10 +50,10 @@ ttopen()
 
 {
 	ioctl(0, TCGETA, &otermio);	/* save old settings */
-	ntermio.c_iflag = 0;		/* setup new settings */
-	ntermio.c_oflag = 0;
+	ntermio.c_iflag = otermio.c_iflag & ~(INLCR|ICRNL|IGNCR);
+	ntermio.c_oflag = otermio.c_oflag;
 	ntermio.c_cflag = otermio.c_cflag;
-	ntermio.c_lflag = 0;
+	ntermio.c_lflag = otermio.c_lflag & ~(ICANON|ISIG|ECHO);
 	ntermio.c_line = otermio.c_line;
 	ntermio.c_cc[VMIN] = 1;
 	ntermio.c_cc[VTIME] = 0;
@@ -74,6 +77,15 @@ ttclose()
 {
 	ioctl(0, TCSETA, &otermio);	/* restore terminal settings */
 	fcntl(0, F_SETFL, kbdflgs);
+}
+
+ttputs(s)
+char *s;
+{
+  char *p = s;
+
+  while(*p)
+    ttputc(*p++);
 }
 
 /*

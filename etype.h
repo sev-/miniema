@@ -1,10 +1,13 @@
 /*
- *  $Id: etype.h,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: etype.h,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: etype.h,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Added mainmenu and ttputs proto
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -173,4 +176,6 @@ char *strcat();
 char *strcpy();
 char *malloc();
 
-
+/* menu.c */
+PASCAL NEAR mainmenu();
+PASCAL NEAR updoneline();	/* display.c */

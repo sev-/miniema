@@ -1,10 +1,13 @@
 /*
- *  $Id: tcap.c,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: tcap.c,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: tcap.c,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Patched ^Q ^S bug and added ttputs function
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -100,6 +103,7 @@ extern int	tcapopen();
 extern int	tcapclose();
 extern int	tput();
 extern char	*tgoto();
+extern int	ttputs();
 
 #define TCAPSLEN 1024
 char tcapbuf[TCAPSLEN];
@@ -122,7 +126,8 @@ TERM term = {
 	tcapeeop,
 	tcapbeep,
 	tcaprev,
-	tcapcres
+	tcapcres,
+	ttputs
 };
 
 /*	input buffers and pointers	*/

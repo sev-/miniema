@@ -1,10 +1,13 @@
 /*
- *  $Id: display.c,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: display.c,v 1.2 1994/06/24 17:22:21 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: display.c,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/24 17:22:21  sev
+ * Added updoneline function (for screen-piece refershing)
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -519,7 +522,7 @@ PASCAL NEAR updgar()
 		vscreen[i]->v_flag &= ~VFREV;
 		txt = pscreen[i]->v_text;
 		for (j = 0; j < term.t_ncol; ++j)
-			txt[j] = ' ';
+			txt[j] = 7;	/* unimpossible character */
 	}
 
 	movecursor(0, 0);		 /* Erase the screen. */
@@ -1070,3 +1073,15 @@ int s;	/* scaled integer to output */
 	mlout((f % 10) + '0');
 	ttcol += 3;
 }       
+
+PASCAL NEAR updoneline(i, from, to)
+{
+	register int j;
+	register char *txt;
+
+	vscreen[i]->v_flag |= VFCHG;
+	vscreen[i]->v_flag &= ~VFREV;
+	txt = pscreen[i]->v_text;
+	for (j = from; j < to; ++j)
+		txt[j] = 7;	/* unimpossible character */
+}
