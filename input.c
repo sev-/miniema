@@ -1,49 +1,3 @@
-/*
- * $Id: input.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: input.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * Input:	Various input routines for MicroEMACS written by Daniel
- * Lawrence 5/9/86
- */
-
-/*
- * Notes:
- * 
- * MicroEMACS's kernel processes two distinct forms of characters.  One of these
- * is a standard unsigned character which is used in the edited text.  The
- * other form, called an EMACS Extended Character is a 2 byte value which
- * contains both an ascii value, and flags for certain prefixes/events.
- * 
- * Bit	Usage ---	----- 0 = 7	Standard 8 bit ascii character 8
- * Control key flag 9	META prefix flag 10	^X prefix flag 11 Function
- * key flag 12	Mouse prefix 13	Shifted flag (not needed on alpha shifted
- * characters) 14	Alterate prefix (ALT key on PCs)
- * 
- * The machine dependent driver is responsible for returning a byte stream from
- * the various input devices with various prefixes/events embedded as escape
- * codes.  Zero is used as the value indicating an escape sequence is next.
- * The format of an escape sequence is as follows:
- * 
- * 0		Escape indicator <prefix byte>	upper byte of extended
- * character {<col><row>}	col, row position if the prefix byte
- * indicated a mouse event <event code>	value of event
- * 
- * Two successive zeroes are used to indicate an actual null being input.  These
- * values are then interpreted by getkey() to construct the proper extended
- * character sequences to pass to the MicroEMACS kernel.
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -55,11 +9,7 @@
  * or ABORT. The ABORT status is returned if the user bumps out of the
  * question with a ^G. Used any time a confirmation is required.
  */
-
-mlyesno(prompt)
-
-char *prompt;
-
+mlyesno(char *prompt)
 {
   int c;			  /* input character */
   char buf[NPAT];		  /* prompt to user */
@@ -95,11 +45,7 @@ char *prompt;
  * ectoc:	expanded character to character collapse the CTRL and SPEC
  * flags back into an ascii code
  */
-
-ectoc(c)
-
-int c;
-
+ectoc(int c)
 {
   if (c & CTRL)
     c = c & ~(CTRL | 0x40);
@@ -112,55 +58,15 @@ int c;
  * tgetc:	Get a key from the terminal driver, resolve any keyboard
  * macro action
  */
-
 int tgetc()
-
 {
   int c;			  /* fetched character */
-
-  /* if we are playing a keyboard macro back, */
-  if (kbdmode == PLAY)
-  {
-
-    /* if there is some left... */
-    if (kbdptr < kbdend)
-      return ((int) *kbdptr++);
-
-    /* at the end of last repitition? */
-    if (--kbdrep < 1)
-    {
-      kbdmode = STOP;
-      /* force a screen update after all is done */
-      update(FALSE);
-    }
-    else
-    {
-
-      /* reset the macro to the begining for the next rep */
-      kbdptr = &kbdm[0];
-      return ((int) *kbdptr++);
-    }
-  }
 
   /* fetch a character from the terminal driver */
   c = TTgetc();
 
   /* record it for $lastkey */
   lastkey = c;
-
-  /* save it if we need to */
-  if (kbdmode == RECORD)
-  {
-    *kbdptr++ = c;
-    kbdend = kbdptr;
-
-    /* don't overrun the buffer */
-    if (kbdptr == &kbdm[NKBDM - 1])
-    {
-      kbdmode = STOP;
-      TTbeep();
-    }
-  }
 
   /* and finally give the char back */
   return (c);
@@ -170,9 +76,7 @@ int tgetc()
  * getkey: Get one keystroke. The only prefixs legal here are the SPEC and
  * CTRL prefixes.
  */
-
 getkey()
-
 {
   int c;			  /* next input character */
   int upper;			  /* upper byte of the extended sequence */
@@ -216,7 +120,6 @@ getkey()
  * keys
  */
 getcmd()
-
 {
   int c;			  /* fetched keystroke */
   KEYTAB *key;			  /* ptr to a key entry */
@@ -231,13 +134,13 @@ getcmd()
     if (key->k_ptr.fp == meta)
     {
       c = getkey();
-      c = upperc(c) | (c & ~255); /* Force to upper */
+      c = toupper(c) | (c & ~255); /* Force to upper */
       c |= META;
     }
     else if (key->k_ptr.fp == cex)
     {
       c = getkey();
-      c = upperc(c) | (c & ~255); /* Force to upper */
+      c = toupper(c) | (c & ~255); /* Force to upper */
       c |= CTLX;
     }
   }
@@ -251,12 +154,7 @@ getcmd()
  * the proper terminator. If the terminator is not a return('\r'), return
  * will echo as "<NL>"
  */
-getstring(prompt, buf, nbuf, eolchar)
-
-char *prompt;
-char *buf;
-int eolchar;
-
+getstring(char *prompt, char *buf, int nbuf, int eolchar)
 {
   register int cpos;		  /* current character position in string */
   register int c;		  /* current input character */
@@ -298,7 +196,7 @@ int eolchar;
     if (c == ectoc(abortc) && quotef == FALSE)
     {
       /* Abort the input? */
-      ctrlg(FALSE, 0);
+      ctrlg();
       TTflush();
       return (ABORT);
     }
@@ -374,11 +272,102 @@ int eolchar;
   }
 }
 
-outstring(s)			  /* output a string of input characters */
-
-char *s;			  /* string to output */
-
+outstring(char *s)		  /* output a string of input characters */
 {
   while (*s)
     mlout(*s++);
+}
+
+char *gtfilename (char *prompt)	  /* prompt to user on command line */
+{
+  char *sp;			  /* ptr to the returned string */
+
+  sp = complete (prompt, NULL, NFILEN);
+  if (sp == NULL)
+    return (NULL);
+
+  return (sp);
+}
+
+char *complete (char *prompt, char *defval, int maxlen)
+{
+  register int c;		  /* current input character */
+  register int ec;		  /* extended input character */
+  int cpos;			  /* current column on screen output */
+  static char buf[NSTRING];	  /* buffer to hold tentative name */
+
+  /* starting at the beginning of the string buffer */
+  cpos = 0;
+
+  /* if it exists, prompt the user for a buffer name */
+  if (prompt)
+  {
+    strcpy (buf, prompt);
+    strcat (buf, ": ");
+    mlwrite (buf);
+  }
+
+  /* build a name string from the keyboard */
+  while (TRUE)
+  {
+
+    /* get the keystroke and decode it */
+    ec = getkey ();
+    c = ectoc (ec);
+
+    /* if we are at the end, just match it */
+    if (c == '\n' || c == '\r')
+    {
+      if (defval && cpos == 0)
+	return (defval);
+      else
+      {
+	buf[cpos] = 0;
+	return (buf);
+      }
+
+    }
+    else if (ec == abortc)
+    {				  /* Bell, abort */
+      ctrlg ();
+      TTflush ();
+      return (NULL);
+
+    }
+    else if (c == 0x7F || c == 0x08)
+    {				  /* rubout/erase */
+      if (cpos != 0)
+      {
+	mlout ('\b');
+	mlout (' ');
+	mlout ('\b');
+	--ttcol;
+	--cpos;
+	TTflush ();
+      }
+
+    }
+    else if (c == 0x15)
+    {				  /* C-U, kill */
+      while (cpos != 0)
+      {
+	mlout ('\b');
+	mlout (' ');
+	mlout ('\b');
+	--cpos;
+	--ttcol;
+      }
+      TTflush ();
+    }
+    else
+    {
+      if (cpos < maxlen && c > ' ')
+      {
+	buf[cpos++] = c;
+	mlout (c);
+	++ttcol;
+	TTflush ();
+      }
+    }
+  }
 }

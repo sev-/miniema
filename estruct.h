@@ -1,20 +1,4 @@
 /*
- * $Id: estruct.h,v 1.4 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: estruct.h,v $
- * Revision 1.4  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
- * 1.2  1994/06/24  17:22:21  sev Added ttputs into tcap structure
- * 
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
  * ESTRUCT:	Structure and preprocesser defined for MicroEMACS 3.10
  * 
  * written by Daniel Lawrence based on code by Dave G. Conroy, Steve Wilhite and
@@ -22,22 +6,13 @@
  */
 
 
-/*
- * Program Identification.....
- * 
- * PROGNAME should always be MicroEMACS for a distribution unmodified version.
- * People using MicroEMACS as a shell for other products should change this
- * to reflect their product. Macros can query this via the $progname variable
- */
-
-#define PROGNAME	"MicroEMACS"
-#define	VERSION		"3.10"
+#define PROGNAME	"Dynamic"
+#define	VERSION		"1.0"
 
 
 /* Configuration options	 */
 
 #define TYPEAH	1		  /* type ahead causes update to be skipped	 */
-#define	CLEAN	0		  /* de-alloc memory on exit			 */
 #define	CALLED	0		  /* is emacs a called subroutine? or stand
 				   * alone */
 
@@ -54,10 +29,6 @@
 
 #define ETYPE	struct
 
-/* Emacs global flag bit definitions (for gflags)	 */
-
-#define GFREAD	1
-
 /* internal constants	 */
 
 #define NBINDS	300		  /* max # of bound keys		 */
@@ -65,7 +36,6 @@
 #define NBUFN	32		  /* # of bytes, buffer name	  */
 #define NLINE	256		  /* # of bytes, input line	 */
 #define	NSTRING	128		  /* # of bytes, string buffers	 */
-#define NKBDM	256		  /* # of strokes, keyboard macro */
 #define NPAT	128		  /* # of bytes, pattern		 */
 #define HUGE	1000		  /* Huge number			 */
 #define	KBLOCK	250		  /* sizeof kill buffer chunks	 */
@@ -94,20 +64,6 @@
 #define TRUE	1		  /* True, yes, good, etc.	 */
 #define ABORT	2		  /* Death, ^G, abort, etc.	 */
 
-#define STOP	0		  /* keyboard macro not in use	 */
-#define	PLAY	1		  /* playing	 */
-#define	RECORD	2		  /* recording	 */
-
-/*
- * PTBEG, PTEND, FORWARD, and REVERSE are all toggle-able values for the scan
- * routines.
- */
-#define PTBEG	0		  /* Leave the point at the beginning on
-				   * search	 */
-#define	PTEND	1		  /* Leave the point at the end on search		 */
-#define	FORWARD	0		  /* forward direction		 */
-#define REVERSE	1		  /* backwards direction		 */
-
 #define FIOSUC	0		  /* File I/O, success.		 */
 #define FIOFNF	1		  /* File I/O, file not found.	 */
 #define FIOEOF	2		  /* File I/O, end of file.	 */
@@ -116,28 +72,12 @@
 #define	FIODEL	6		  /* Can't delete/rename file	 */
 
 #define CFCPCN	0x0001		  /* Last command was C-P, C-N	 */
-#define CFKILL	0x0002		  /* Last command was a kill	 */
-
-#define BELL	0x07		  /* a bell character		 */
 
 #define INTWIDTH	sizeof(int) * 3
-
-/*
- * DIFCASE represents the integer difference between upper and lower case
- * letters.  It is an xor-able value, which is fortunate, since the relative
- * positions of upper to lower case letters is the opposite of ascii in
- * ebcdic.
- */
 
 #ifdef	islower
 #undef	islower
 #endif
-#ifdef	isupper
-#undef	isupper
-#endif
-
-#define DIFCASE 	0x20
-#define	CHCASE(c)	chcase(c) /* Toggle extended letter case. */
 
 /*
  * There is a window structure allocated for every active display window. The
@@ -208,8 +148,6 @@ typedef struct BUFFER
 /* mode flags	 */
 #define	NUMMODES	9	  /* # of defined modes	      */
 
-#define MDCMOD	0x0002		  /* C indentation and fence match */
-#define	MDEXACT	0x0008		  /* Exact matching for searches	 */
 #define	MDVIEW	0x0010		  /* read-only buffer		 */
 #define MDOVER	0x0020		  /* overwrite mode		 */
 #define	MDASAVE	0x0100		  /* auto-save mode		 */
@@ -297,7 +235,6 @@ typedef struct
 #define	TTeeol		(*term.t_eeol)
 #define	TTbeep		(*term.t_beep)
 #define	TTrev		(*term.t_rev)
-#define	TTputs		(*term.t_puts)
 
 /* Structure for the table of current key bindings 	 */
 
@@ -349,18 +286,3 @@ typedef struct VDESC
   int v_num;			  /* ordinal pointer to variable in list */
 } VDESC;
 
-/* HICHAR - 1 is the largest character we will deal with. */
-#define HICHAR		256
-
-/*
- * This is the message which should be added to any "About MicroEMACS" boxes
- * on any of the machines with window managers.
- * 
- * 
- * ------------------------------------------ | |	 MicroEMACS v3.xx |
- * or the ............ |					 | | Text
- * Editor and Corrector |					 | | written
- * by Daniel M. Lawrence |    [based on code by Dave Conroy]	 | | |
- * Send inquiries and donations to:	 | |    617 New York St | Lafayette,
- * IN 47901		 | | ------------------------------------------
- */

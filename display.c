@@ -1,28 +1,3 @@
-/*
- * $Id: display.c,v 1.4 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: display.c,v $
- * Revision 1.4  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
- * 1.2  1994/06/24  17:22:21  sev Added updoneline function (for screen-piece
- * refershing)
- * 
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * The functions in this file handle redisplay. There are two halves, the
- * ones that update the virtual display screen, and the ones that make the
- * physical display screen the same as the virtual display screen. These
- * functions use hints that are left in the windows by the commands.
- * 
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -51,7 +26,6 @@ static VIDEO **pscreen;		  /* Physical screen. */
  * The original window has "WFCHG" set, so that it will get completely
  * redrawn on the first call to "update".
  */
-
 vtinit()
 {
   register int i;
@@ -115,8 +89,7 @@ vttidy()
  * screen. There is no checking for nonsense values; this might be a good
  * idea during the early stages.
  */
-vtmove(row, col)
-int row, col;
+vtmove(int row, int col)
 {
   vtrow = row;
   vtcol = col;
@@ -129,9 +102,7 @@ int row, col;
  * characters into the virtual terminal buffers. Only column overflow is
  * checked.
  */
-
-vtputc(c)
-int c;
+vtputc(int c)
 {
   register VIDEO *vp;		  /* ptr to line being updated */
 
@@ -183,9 +154,7 @@ vteeol()
  * upscreen:	user routine to force a screen update always finishes
  * complete update
  */
-
-upscreen(f, n)
-int f, n;			  /* prefix flag and argument */
+upscreen()
 {
   update(TRUE);
   return (TRUE);
@@ -198,8 +167,7 @@ int f, n;			  /* prefix flag and argument */
  * correct for the current window. Third, make the virtual and physical
  * screens the same.
  */
-update(force)
-int force;			  /* force update past type ahead? */
+update(int force)
 {
   register WINDOW *wp;
 
@@ -207,9 +175,6 @@ int force;			  /* force update past type ahead? */
   if (force == FALSE && typahead())
     return (TRUE);
 #endif
-  if (force == FALSE && kbdmode == PLAY)
-    return (TRUE);
-
   /* update any windows that need refreshing */
   wp = wheadp;
   while (wp != (WINDOW *) NULL)
@@ -256,9 +221,7 @@ int force;			  /* force update past type ahead? */
  * reframe:	check to see if the cursor is on in the window and re-frame
  * it if needed or wanted
  */
-
-reframe(wp)
-WINDOW *wp;
+reframe(WINDOW *wp)
 {
   register LINE *lp;		  /* search pointer */
   register LINE *rp;		  /* reverse search pointer */
@@ -355,9 +318,7 @@ WINDOW *wp;
 }
 
 /* updone: update the current line to the virtual screen		 */
-
-updone(wp)
-WINDOW *wp;			  /* window to update current line in */
+updone(WINDOW *wp)
 {
   register LINE *lp;		  /* line to update */
   register int sline;		  /* physical screen line to update */
@@ -384,9 +345,7 @@ WINDOW *wp;			  /* window to update current line in */
 }
 
 /* updall: update all the lines in a window on the virtual screen */
-
-updall(wp)
-WINDOW *wp;			  /* window to update lines in */
+updall(WINDOW *wp)
 {
   register LINE *lp;		  /* line to update */
   register int sline;		  /* physical screen line to update */
@@ -430,7 +389,6 @@ WINDOW *wp;			  /* window to update lines in */
  * updpos: update the position of the hardware cursor and handle extended
  * lines. This is the only update for simple moves.
  */
-
 updpos()
 {
   register LINE *lp;
@@ -517,7 +475,6 @@ updpos()
 }
 
 /* upddex: de-extend any line that derserves it		 */
-
 upddex()
 {
   register WINDOW *wp;
@@ -566,7 +523,6 @@ upddex()
  * updgar: if the screen is garbage, clear the physical screen and the
  * virtual screen and force a full update
  */
-
 updgar()
 {
   register int i;
@@ -589,10 +545,7 @@ updgar()
 }
 
 /* updupd: update the physical screen from the virtual screen	 */
-
-updupd(force)
-
-int force;			  /* forced update flag */
+updupd(int force)
 {
   register VIDEO *vp1;
   register int i;
@@ -651,12 +604,8 @@ updext()
  * character sequences; we are using VT52 functionality. Update the physical
  * row and column variables. It does try an exploit erase to end of line.
  */
-updateline(row, vp, pp)
-int row;			  /* row of screen to update */
-struct VIDEO *vp;		  /* virtual screen image */
-struct VIDEO *pp;		  /* physical screen image */
+updateline(int row, struct VIDEO *vp, struct VIDEO *pp)
 {
-
   register char *cp1;
   register char *cp2;
   register char *cp3;
@@ -677,8 +626,7 @@ struct VIDEO *pp;		  /* physical screen image */
    */
   rev = (vp->v_flag & VFREV) == VFREV;
   req = (vp->v_flag & VFREQ) == VFREQ;
-  if ((rev != req)
-       )
+  if ((rev != req))
   {
     /* set rev video if needed */
     if (rev != req)
@@ -790,8 +738,7 @@ struct VIDEO *pp;		  /* physical screen image */
  * change the modeline format by hacking at this routine. Called by "update"
  * any time there is a dirty window.
  */
-modeline(wp)
-WINDOW *wp;			  /* window to update modeline for */
+modeline(WINDOW *wp)
 {
   register char *cp;
   register int c;
@@ -945,8 +892,7 @@ upmode()			  /* update all the mode lines */
  * and column "col". The row and column arguments are origin 0. Optimize out
  * random calls. Update "ttrow" and "ttcol".
  */
-movecursor(row, col)
-int row, col;
+movecursor(int row, int col)
 {
   if (row != ttrow || col != ttcol)
   {
@@ -979,17 +925,7 @@ mlerase()
   mpresf = FALSE;
 }
 
-/*
- * Write a message into the message line. Keep track of the physical cursor
- * position. A small class of printf like format items is handled. Assumes
- * the stack grows down; this assumption is made by the "+=" in the argument
- * scan loop. If  STACK_GROWS_UP  is set in estruct.h, then we'll assume that
- * the stack grows up and use "-=" instead of "+=". Set the "message line"
- * flag TRUE.  Don't write beyond the end of the current terminal width.
- */
-
-mlout(c)
-int c;				  /* character to write */
+mlout(int c)
 {
   if (ttcol + 1 < term.t_ncol)
     TTputc(c);
@@ -999,14 +935,9 @@ int c;				  /* character to write */
     --lastptr;
 }
 
-#define	ADJUST(ptr, dtype)	ptr += sizeof(dtype)
-
-mlwrite(fmt, arg)
-char *fmt;			  /* format string for output */
-char *arg;
+mlwrite(char *fmt)
 {
   register int c;		  /* current char in format string */
-  register char *ap;		  /* ptr to current data field */
 
   /* if we are not currently echoing on the command line, abort this */
   if (discmd == FALSE)
@@ -1019,57 +950,12 @@ char *arg;
     TTflush();
   }
 
-  ap = (char *) arg;
-
   movecursor(term.t_nrow, 0);
   lastptr = &lastmesg[0];	  /* setup to record message */
   while ((c = *fmt++) != 0)
   {
-    if (c != '%')
-    {
       mlout(c);
       ++ttcol;
-    }
-    else
-    {
-      c = *fmt++;
-      switch (c)
-      {
-	case 'd':
-	  mlputi(*(int *) ap, 10);
-	  ADJUST(ap, int);
-	  break;
-
-	case 'o':
-	  mlputi(*(int *) ap, 8);
-	  ADJUST(ap, int);
-	  break;
-
-	case 'x':
-	  mlputi(*(int *) ap, 16);
-	  ADJUST(ap, int);
-	  break;
-
-	case 'D':
-	  mlputli(*(long *) ap, 10);
-	  ADJUST(ap, long);
-	  break;
-
-	case 's':
-	  mlputs(*(char **) ap);
-	  ADJUST(ap, char *);
-	  break;
-
-	case 'f':
-	  mlputf(*(int *) ap);
-	  ADJUST(ap, int);
-	  break;
-
-	default:
-	  mlout(c);
-	  ++ttcol;
-      }
-    }
   }
 
   /* if we can, erase to the end of screen */
@@ -1078,99 +964,4 @@ char *arg;
   TTflush();
   mpresf = TRUE;
   *lastptr = 0;			  /* terminate lastmesg[] */
-}
-
-/*
- * Write out a string. Update the physical cursor position. This assumes that
- * the characters in the string all have width "1"; if this is not the case
- * things will get screwed up a little.
- */
-
-mlputs(s)
-char *s;
-{
-  register int c;
-
-  while ((c = *s++) != 0)
-  {
-    mlout(c);
-    ++ttcol;
-  }
-}
-
-/*
- * Write out an integer, in the specified radix. Update the physical cursor
- * position.
- */
-mlputi(i, r)
-{
-  register int q;
-  static char hexdigits[] = "0123456789ABCDEF";
-
-  if (i < 0)
-  {
-    i = -i;
-    mlout('-');
-  }
-
-  q = i / r;
-
-  if (q != 0)
-    mlputi(q, r);
-
-  mlout(hexdigits[i % r]);
-  ++ttcol;
-}
-
-/* do the same except as a long integer. */
-mlputli(l, r)
-long l;
-{
-  register long q;
-
-  if (l < 0)
-  {
-    l = -l;
-    mlout('-');
-  }
-
-  q = l / r;
-
-  if (q != 0)
-    mlputli(q, r);
-
-  mlout((int) (l % r) + '0');
-  ++ttcol;
-}
-
-/* write out a scaled integer with two decimal places */
-
-mlputf(s)
-int s;				  /* scaled integer to output */
-{
-  int i;			  /* integer portion of number */
-  int f;			  /* fractional portion of number */
-
-  /* break it up */
-  i = s / 100;
-  f = s % 100;
-
-  /* send out the integer portion */
-  mlputi(i, 10);
-  mlout('.');
-  mlout((f / 10) + '0');
-  mlout((f % 10) + '0');
-  ttcol += 3;
-}
-
-updoneline(i, from, to)
-{
-  register int j;
-  register char *txt;
-
-  vscreen[i]->v_flag |= VFCHG;
-  vscreen[i]->v_flag &= ~VFREV;
-  txt = pscreen[i]->v_text;
-  for (j = from; j < to; ++j)
-    txt[j] = 7;			  /* unimpossible character */
 }

@@ -1,26 +1,3 @@
-/*
- * $Id: file.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: file.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * FILE.C:   for MicroEMACS
- * 
- * The routines in this file handle the reading, writing and lookup of disk
- * files.  All of details about the reading and writing of the disk are in
- * "fileio.c".
- * 
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -34,12 +11,7 @@
  * specified on the command line as an argument. The command in $readhook is
  * called after the buffer is set up and before it is read.
  */
-
-readin(fname, lockfl)
-
-char fname[];			  /* name of file to read */
-int lockfl;			  /* check for file locks? */
-
+readin(char fname[])
 {
   register LINE *lp1;
   register LINE *lp2;
@@ -145,9 +117,7 @@ out:
  * pointer into fname indicating the end of the file path; i.e., 1 character
  * BEYOND the path name.
  */
-char *makename(bname, fname)
-char bname[];
-char fname[];
+char *makename(char bname[], char fname[])
 {
   register char *cp1;
   register char *cp2;
@@ -170,38 +140,13 @@ char fname[];
   return (pathp);
 }
 
-unqname(name)			  /* make sure a buffer name is unique */
-
-char *name;			  /* name to check on */
-
-{
-  register char *sp;
-
-  /* check to see if it is in the buffer list */
-  while (bfind(name, 0, FALSE) != (BUFFER *) NULL)
-  {
-
-    /* go to the end of the name */
-    sp = name;
-    while (*sp)
-      ++sp;
-    if (sp == name || (*(sp - 1) < '0' || *(sp - 1) > '8'))
-    {
-      *sp++ = '0';
-      *sp = 0;
-    }
-    else
-      *(--sp) += 1;
-  }
-}
-
 /*
  * Save the contents of the current buffer in its associatd file. Do nothing
  * if nothing has changed (this may be a bug, not a feature). Error if there
  * is no remembered file name for the buffer. Bound to "C-X C-S". May get
  * called by "C-Z".
  */
-filesave(f, n)
+filesave()
 {
   register int s;
 
@@ -258,11 +203,7 @@ filesave(f, n)
  * renamed to the original name.  Before the file is written, a user
  * specifyable routine (in $writehook) can be run.
  */
-
-writeout(fn)
-
-char *fn;			  /* name of file to write current buffer to */
-
+writeout(char *fn)
 {
   register LINE *lp;		  /* line to scan while writing */
   register char *sp;		  /* temporary string pointer */
@@ -356,4 +297,14 @@ char *fn;			  /* name of file to write current buffer to */
   /* reopen the keyboard, and return our status */
   TTkopen();
   return (status == FIOSUC);
+}
+
+int fileread ()
+{
+  char *fname;			  /* file name to read */
+
+  if ((fname = gtfilename (TEXT131)) == (char *) NULL)
+    /* "Read file" */
+    return (FALSE);
+  return (readin (fname));
 }

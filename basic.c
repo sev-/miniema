@@ -1,24 +1,3 @@
-/*
- * $Id: basic.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: basic.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * The routines in this file move the cursor around on the screen. They
- * compute a new value for the cursor, then adjust ".". The display code
- * always updates the cursor location, so only moves between lines, or
- * functions that adjust the top line in the window and invalidate the
- * framing, are hard.
- */
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -26,43 +5,32 @@
 #include	"english.h"
 
 /* Move the cursor to the beginning of the current line. Trivial. */
-int gotobol(f, n)
+int gotobol()
 {
   curwp->w_doto = 0;
   return (TRUE);
 }
 
-/*
- * Move the cursor backwards by "n" characters. If "n" is less than zero call
- * "forwchar" to actually do the move. Otherwise compute the new cursor
- * location. Error if you try and move out of the buffer. Set the flag if the
- * line pointer for dot changes.
- */
-int backchar(f, n)
-register int n;
+int backchar()
 {
   register LINE *lp;
 
-  if (n < 0)
-    return (forwchar(f, -n));
-  while (n--)
+  if (curwp->w_doto == 0)
   {
-    if (curwp->w_doto == 0)
-    {
-      if ((lp = lback(curwp->w_dotp)) == curbp->b_linep)
-	return (FALSE);
-      curwp->w_dotp = lp;
-      curwp->w_doto = llength(lp);
-      curwp->w_flag |= WFMOVE;
-    }
-    else
-      curwp->w_doto--;
+    if ((lp = lback(curwp->w_dotp)) == curbp->b_linep)
+      return (FALSE);
+    curwp->w_dotp = lp;
+    curwp->w_doto = llength(lp);
+    curwp->w_flag |= WFMOVE;
   }
+  else
+    curwp->w_doto--;
+
   return (TRUE);
 }
 
 /* Move the cursor to the end of the current line. Trivial. No errors. */
-int gotoeol(f, n)
+int gotoeol()
 {
   curwp->w_doto = llength(curwp->w_dotp);
   return (TRUE);
@@ -74,14 +42,9 @@ int gotoeol(f, n)
  * location, and move ".". Error if you try and move off the end of the
  * buffer. Set the flag if the line pointer for dot changes.
  */
-int forwchar(f, n)
-register int n;
+int forwchar()
 {
-  if (n < 0)
-    return (backchar(f, -n));
-  while (n--)
-  {
-    if (curwp->w_doto == llength(curwp->w_dotp))
+  if (curwp->w_doto == llength(curwp->w_dotp))
     {
       if (curwp->w_dotp == curbp->b_linep)
 	return (FALSE);
@@ -91,7 +54,7 @@ register int n;
     }
     else
       curwp->w_doto++;
-  }
+
   return (TRUE);
 }
 
@@ -100,7 +63,7 @@ register int n;
  * considered to be hard motion; it really isn't if the original value of dot
  * is the same as the new value of dot. Normally bound to "M-<".
  */
-int gotobob(f, n)
+int gotobob()
 {
   curwp->w_dotp = lforw(curbp->b_linep);
   curwp->w_doto = 0;
@@ -113,7 +76,7 @@ int gotobob(f, n)
  * (ZJ). The standard screen code does most of the hard parts of update.
  * Bound to "M->".
  */
-int gotoeob(f, n)
+int gotoeob()
 {
   curwp->w_dotp = curbp->b_linep;
   curwp->w_doto = 0;
@@ -127,12 +90,9 @@ int gotoeob(f, n)
  * controls how the goal column is set. Bound to "C-N". No errors are
  * possible.
  */
-int forwline(f, n)
+int forwline()
 {
   register LINE *dlp;
-
-  if (n < 0)
-    return (backline(f, -n));
 
   /* if we are on the last line as we start....fail the command */
   if (curwp->w_dotp == curbp->b_linep)
@@ -147,7 +107,7 @@ int forwline(f, n)
 
   /* and move the point down */
   dlp = curwp->w_dotp;
-  while (n-- && dlp != curbp->b_linep)
+  if (dlp != curbp->b_linep)
     dlp = lforw(dlp);
 
   /* reseting the current position */
@@ -163,13 +123,9 @@ int forwline(f, n)
  * your alternate. Figure out the new line and call "movedot" to perform the
  * motion. No errors are possible. Bound to "C-P".
  */
-int backline(f, n)
+int backline()
 {
   register LINE *dlp;
-
-  if (n < 0)
-    return (forwline(f, -n));
-
 
   /* if we are on the last line as we start....fail the command */
   if (lback(curwp->w_dotp) == curbp->b_linep)
@@ -184,7 +140,7 @@ int backline(f, n)
 
   /* and move the point up */
   dlp = curwp->w_dotp;
-  while (n-- && lback(dlp) != curbp->b_linep)
+  if (lback(dlp) != curbp->b_linep)
     dlp = lback(dlp);
 
   /* reseting the current position */
@@ -199,8 +155,7 @@ int backline(f, n)
  * column, return the best choice for the offset. The offset is returned.
  * Used by "C-N" and "C-P".
  */
-int getgoal(dlp)
-register LINE *dlp;
+int getgoal(LINE *dlp)
 {
   register int c;
   register int col;
@@ -232,21 +187,15 @@ register LINE *dlp;
  * the overlap; this value is the default overlap value in ITS EMACS. Because
  * this zaps the top line in the display window, we have to do a hard update.
  */
-int forwpage(f, n)
-register int n;
+int forwpage()
 {
   register LINE *lp;
+  register int n;
 
-  if (f == FALSE)
-  {
-    n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
-    if (n <= 0)			  /* Forget the overlap	 */
-      n = 1;			  /* if tiny window.	 */
-  }
-  else if (n < 0)
-    return (backpage(f, -n));
-  else				  /* Convert from pages	 */
-    n *= curwp->w_ntrows;	  /* to lines.		 */
+  n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
+  if (n <= 0)			  /* Forget the overlap	 */
+    n = 1;			  /* if tiny window.	 */
+
   lp = curwp->w_linep;
   while (n-- && lp != curbp->b_linep)
     lp = lforw(lp);
@@ -263,22 +212,15 @@ register int n;
  * EMACS manual. Bound to "M-V". We do a hard update for exactly the same
  * reason.
  */
-int backpage(f, n)
-register int f;
-register int n;
+int backpage()
 {
   register LINE *lp;
+  register int n;
 
-  if (f == FALSE)
-  {
-    n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
-    if (n <= 0)			  /* Don't blow up if the */
-      n = 1;			  /* window is tiny.	 */
-  }
-  else if (n < 0)
-    return (forwpage(f, -n));
-  else				  /* Convert from pages	 */
-    n *= curwp->w_ntrows;	  /* to lines.		 */
+  n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
+  if (n <= 0)			  /* Don't blow up if the */
+    n = 1;			  /* window is tiny.	 */
+
   lp = curwp->w_linep;
   while (n-- && lback(lp) != curbp->b_linep)
     lp = lback(lp);
@@ -286,48 +228,5 @@ register int n;
   curwp->w_dotp = lp;
   curwp->w_doto = 0;
   curwp->w_flag |= WFHARD;
-  return (TRUE);
-}
-
-/*
- * Set the mark in the current window to the value of "." in the window. No
- * errors are possible. Bound to "M-.".
- */
-int setmark(f, n)
-{
-  /* make sure it is in range */
-  if (f == FALSE)
-    n = 0;
-  n %= NMARKS;
-
-  curwp->w_markp[n] = curwp->w_dotp;
-  curwp->w_marko[n] = curwp->w_doto;
-  mlwrite(TEXT9, n);
-  /* "[Mark %d set]" */
-  return (TRUE);
-}
-
-/*
- * Goto a mark in the current window. This is pretty easy, bacause all of the
- * hard work gets done by the standard routine that moves the mark about. The
- * only possible error is "no mark". Bound to "M-^G".
- */
-int gotomark(f, n)
-int f, n;			  /* default and nemeric args */
-{
-  /* make sure it is in range */
-  if (f == FALSE)
-    n = 0;
-  n %= NMARKS;
-
-  if (curwp->w_markp[n] == (LINE *) NULL)
-  {
-    mlwrite(TEXT11, n);
-    /* "No mark %d in this window" */
-    return (FALSE);
-  }
-  curwp->w_dotp = curwp->w_markp[n];
-  curwp->w_doto = curwp->w_marko[n];
-  curwp->w_flag |= WFMOVE;
   return (TRUE);
 }

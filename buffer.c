@@ -1,214 +1,15 @@
-/*
- * $Id: buffer.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: buffer.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * BUFFER.C:	buffer mgmt. routines MicroEMACS 3.10
- * 
- * Buffer management. Some of the functions are internal, and some are actually
- * attached to user keys. Like everyone else, they set hints for the display
- * system.
- */
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
 #include	"edef.h"
 #include	"english.h"
 
-nextbuffer(f, n)		  /* switch to the next buffer in the buffer
-				   * list */
-
-int f, n;			  /* default flag, numeric argument */
-{
-  register BUFFER *bp;		  /* current eligable buffer */
-  register int status;
-
-  /* make sure the arg is legit */
-  if (f == FALSE)
-    n = 1;
-  if (n < 1)
-    return (FALSE);
-
-  /* cycle thru buffers until n runs out */
-  while (n-- > 0)
-  {
-    bp = getdefb();
-    if (bp == (BUFFER *) NULL)
-      return (FALSE);
-    status = swbuffer(bp);
-    if (status != TRUE)
-      return (status);
-  }
-  return (status);
-}
-
-swbuffer(bp)			  /* make buffer BP current */
-
-BUFFER *bp;
-
-{
-  register WINDOW *wp;
-  register int cmark;		  /* current mark */
-
-  if (--curbp->b_nwnd == 0)
-  {				  /* Last use.		 */
-    curbp->b_dotp = curwp->w_dotp;
-    curbp->b_doto = curwp->w_doto;
-    for (cmark = 0; cmark < NMARKS; cmark++)
-    {
-      curbp->b_markp[cmark] = curwp->w_markp[cmark];
-      curbp->b_marko[cmark] = curwp->w_marko[cmark];
-    }
-    curbp->b_fcol = curwp->w_fcol;
-  }
-  curbp = bp;			  /* Switch.	       */
-  if (curbp->b_active != TRUE)
-  {				  /* buffer not active yet */
-    /* read it in and activate it */
-    readin(curbp->b_fname, TRUE);
-    curbp->b_dotp = lforw(curbp->b_linep);
-    curbp->b_doto = 0;
-    curbp->b_active = TRUE;
-  }
-  curwp->w_bufp = bp;
-  curwp->w_linep = bp->b_linep;	  /* For macros, ignored. */
-  curwp->w_flag |= WFMODE | WFFORCE | WFHARD;	/* Quite nasty. 	 */
-  if (bp->b_nwnd++ == 0)
-  {				  /* First use.		 */
-    curwp->w_dotp = bp->b_dotp;
-    curwp->w_doto = bp->b_doto;
-    for (cmark = 0; cmark < NMARKS; cmark++)
-    {
-      curwp->w_markp[cmark] = bp->b_markp[cmark];
-      curwp->w_marko[cmark] = bp->b_marko[cmark];
-    }
-    curwp->w_fcol = bp->b_fcol;
-  }
-  else
-  {
-    wp = wheadp;		  /* Look for old */
-    while (wp != (WINDOW *) NULL)
-    {
-      if (wp != curwp && wp->w_bufp == bp)
-      {
-	curwp->w_dotp = wp->w_dotp;
-	curwp->w_doto = wp->w_doto;
-	for (cmark = 0; cmark < NMARKS; cmark++)
-	{
-	  curwp->w_markp[cmark] = wp->w_markp[cmark];
-	  curwp->w_marko[cmark] = wp->w_marko[cmark];
-	}
-	curwp->w_fcol = wp->w_fcol;
-	break;
-      }
-      wp = wp->w_wndp;
-    }
-  }
-
-  return (TRUE);
-}
-
-BUFFER *getdefb()		  /* get the default buffer for a use or kill */
-
-{
-  BUFFER *bp;			  /* default buffer */
-
-  /* Find the next buffer, which will be the default */
-  bp = curbp->b_bufp;
-
-  /* cycle through the buffers to find an eligable one */
-  while (bp == (BUFFER *) NULL || bp->b_flag & BFINVS)
-  {
-    if (bp == (BUFFER *) NULL)
-      bp = bheadp;
-    else
-      bp = bp->b_bufp;
-
-    /* don't get caught in an infinite loop! */
-    if (bp == curbp)
-    {
-      bp = (BUFFER *) NULL;
-      break;
-    }
-  }
-  return (bp);
-}
-
-zotbuf(bp)			  /* kill the buffer pointed to by bp */
-
-register BUFFER *bp;
-
-{
-  register BUFFER *bp1;
-  register BUFFER *bp2;
-  register int s;
-
-  if (bp->b_nwnd != 0)
-  {				  /* Error if on screen.	 */
-    mlwrite(TEXT28);
-    /* "Buffer is being displayed" */
-    return (FALSE);
-  }
-  if ((s = bclear(bp)) != TRUE)	  /* Blow text away.      */
-    return (s);
-  free((char *) bp->b_linep);	  /* Release header line. */
-  bp1 = (BUFFER *) NULL;	  /* Find the header.	 */
-  bp2 = bheadp;
-  while (bp2 != bp)
-  {
-    bp1 = bp2;
-    bp2 = bp2->b_bufp;
-  }
-  bp2 = bp2->b_bufp;		  /* Next one in chain.   */
-  if (bp1 == (BUFFER *) NULL)	  /* Unlink it.		 */
-    bheadp = bp2;
-  else
-    bp1->b_bufp = bp2;
-  free((char *) bp);		  /* Release buffer block */
-  return (TRUE);
-}
-
-/*
- * Look through the list of buffers. Return TRUE if there are any changed
- * buffers. Buffers that hold magic internal stuff are not considered; who
- * cares if the list of buffer names is hacked. Return FALSE if no buffers
- * have been changed.
- */
-anycb()
-{
-  register BUFFER *bp;
-
-  bp = bheadp;
-  while (bp != (BUFFER *) NULL)
-  {
-    if ((bp->b_flag & BFINVS) == 0 && (bp->b_flag & BFCHG) != 0)
-      return (TRUE);
-    bp = bp->b_bufp;
-  }
-  return (FALSE);
-}
-
 /*
  * Find a buffer, by name. Return a pointer to the BUFFER structure
  * associated with it. If the buffer is not found and the "cflag" is TRUE,
  * create it. The "bflag" is the settings for the flags in in buffer.
  */
-BUFFER *bfind(bname, cflag, bflag)
-
-register char *bname;		  /* name of buffer to find */
-int cflag;			  /* create it if not found? */
-int bflag;			  /* bit settings for a new buffer */
-
+BUFFER *bfind(char *bname, int cflag)
 {
   register BUFFER *bp;
   register BUFFER *sb;		  /* buffer to insert after */
@@ -265,7 +66,7 @@ int bflag;			  /* bit settings for a new buffer */
       bp->b_marko[cmark] = 0;
     }
     bp->b_fcol = 0;
-    bp->b_flag = bflag;
+    bp->b_flag = 0;
     bp->b_mode = gmode;
     bp->b_nwnd = 0;
     bp->b_linep = lp;
@@ -284,8 +85,7 @@ int bflag;			  /* bit settings for a new buffer */
  * if this gets called; the caller must arrange for the updates that are
  * required. Return TRUE if everything looks good.
  */
-bclear(bp)
-register BUFFER *bp;
+bclear(BUFFER *bp)
 {
   register LINE *lp;
   register int s;

@@ -1,25 +1,3 @@
-/*
- * $Id: unix.c,v 1.4 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: unix.c,v $
- * Revision 1.4  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
- * 1.2  1994/06/24  17:22:21  sev Patched ^Q ^S bug and added ttputs function
- * 
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * UNIX.C: Operating specific I/O and Spawning functions under UNIX V7,
- * BSD4.2/3, System V, SUN OS and SCO XENIX for MicroEMACS 3.10 (C)opyright
- * 1988 by Daniel M. Lawrence
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -48,7 +26,6 @@ extern int vttidy();
  * to it and sets it raw. On CPM it is a no-op.
  */
 ttopen()
-
 {
   ioctl(0, TCGETA, &otermio);	  /* save old settings */
   ntermio.c_iflag = otermio.c_iflag & ~(INLCR | ICRNL | IGNCR);
@@ -71,16 +48,13 @@ ttopen()
  * This function gets called just before we go back home to the command
  * interpreter.
  */
-
 ttclose()
-
 {
   ioctl(0, TCSETA, &otermio);	  /* restore terminal settings */
   fcntl(0, F_SETFL, kbdflgs);
 }
 
-ttputs(s)
-char *s;
+ttputs(char *s)
 {
   char *p = s;
 
@@ -88,13 +62,7 @@ char *s;
     ttputc(*p++);
 }
 
-/*
- * Write a character to the display. On VMS, terminal output is buffered, and
- * we just put the characters in the big array, after checking for overflow.
- * On CPM terminal I/O unbuffered, so we just write the byte out. Ditto on
- * MS-DOS (use the very very raw console output routine).
- */
-ttputc(c)
+ttputc(int c)
 {
   fputc(c, stdout);
 }
@@ -115,9 +83,7 @@ ttflush()
  * figures. Very simple on CPM, because the system can do exactly what you
  * want.
  */
-
 ttgetc()
-
 {
   if (kbdqp)
     kbdqp = FALSE;
@@ -137,14 +103,11 @@ ttgetc()
 }
 
 #if	TYPEAH
-
 /*
  * typahead:	Check to see if any characters are already in the keyboard
  * buffer
  */
-
 typahead()
-
 {
   if (!kbdqp)
   {
@@ -156,43 +119,9 @@ typahead()
   }
   return (kbdqp);
 }
-
 #endif
 
-/*
- * Create a subjob with a copy of the command intrepreter in it. When the
- * command interpreter exits, mark the screen as garbage so that you do a
- * full repaint. Bound to "^X C". The message at the start in VMS puts out a
- * newline. Under some (unknown) condition, you don't get one free when DCL
- * starts up.
- */
-spawncli(f, n)
-{
-  register char *cp;
-  char *getenv();
-
-  /* don't allow this command if restricted */
-  if (restflag)
-    return (resterr());
-
-  movecursor(term.t_nrow, 0);	  /* Seek to last line.	 */
-  TTflush();
-  TTclose();			  /* stty to old settings */
-  if ((cp = getenv("SHELL")) != (char *) NULL && *cp != '\0')
-    system(cp);
-  else
-    system("exec /bin/sh");
-  sgarbf = TRUE;
-  sleep(2);
-  TTopen();
-  return (TRUE);
-}
-
-rename1(old, new)		  /* change the name of a file */
-
-char *old;			  /* original file name */
-char *new;			  /* new file name */
-
+rename1(char *old, char *new)	  /* change the name of a file */
 {
   link(old, new);
   unlink(old);

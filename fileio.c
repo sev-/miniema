@@ -1,24 +1,3 @@
-/*
- * $Id: fileio.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: fileio.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * FILEIO.C:	Low level file i/o routines MicroEMACS 3.10
- * 
- * The routines in this file read and write ASCII files from the disk. All of
- * the knowledge about files are here.
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -29,8 +8,7 @@ FILE *ffp;			  /* File pointer, all functions. */
 static int eofflag;		  /* end-of-file flag */
 
 /* Open a file for reading. */
-ffropen(fn)
-char *fn;
+ffropen(char *fn)
 {
   if ((ffp = fopen(fn, "r")) == (FILE *) NULL)
     return (FIOFNF);
@@ -42,8 +20,7 @@ char *fn;
  * Open a file for writing. Return TRUE if all is well, and FALSE on error
  * (cannot create).
  */
-ffwopen(fn)
-char *fn;
+ffwopen(char *fn)
 {
   if ((ffp = fopen(fn, "w")) == (FILE *) NULL)
   {
@@ -78,8 +55,7 @@ ffclose()
  * and the "nbuf" is its length, less the free newline. Return the status.
  * Check only at the newline.
  */
-ffputline(buf, nbuf)
-char buf[];
+ffputline(char buf[], int nbuf)
 {
   register int i;
 
@@ -105,7 +81,6 @@ char buf[];
  * errors too. Return status.
  */
 ffgetline()
-
 {
   register int c;		  /* current character read */
   register int i;		  /* current index into fline */
@@ -165,10 +140,7 @@ ffgetline()
   return (FIOSUC);
 }
 
-int fexist(fname)		  /* does <fname> exist on disk? */
-
-char *fname;			  /* file to check for existance */
-
+int fexist(char *fname)		  /* does <fname> exist on disk? */
 {
   FILE *fp;
 

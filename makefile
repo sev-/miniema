@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.4 1994/08/15 20:42:11 sev Exp $
+#  $Id: makefile,v 1.5 1996/04/08 09:30:05 sev Exp $
 #
 # ---------------------------------------------------------- 
 #
 # $Log: makefile,v $
-# Revision 1.4  1994/08/15 20:42:11  sev
+# Revision 1.5  1996/04/08 09:30:05  sev
+# hmm..
+#
+# Revision 1.4  1994/08/15  20:42:11  sev
 # Indented
 #
 # Revision 1.3  1994/06/28  16:27:33  sev
@@ -19,23 +22,25 @@
 #
 #
  
-CC=		gcc
-CFLAGS=		-O6
+CC=gcc
+CFLAGS=
 
-OFILES=		basic.o buffer.o char.o display.o\
-		file.o fileio.o input.o line.o main.o menu.o\
-		random.o region.o search.o tcap.o unix.o
+OFILES=		basic.o buffer.o display.o\
+		file.o fileio.o input.o line.o main.o\
+		random.o tcap.o unix.o
 
-CFILES=		basic.c buffer.c char.c display.c\
-		file.c fileio.c input.c line.c main.c menu.c\
-		random.c region.c search.c tcap.c unix.c
+CFILES=		basic.c buffer.c display.c\
+		file.c fileio.c input.c line.c main.c\
+		random.c tcap.c unix.c
 
-HFILES=		estruct.h edef.h ebind.h etype.h english.h
+HFILES=		estruct.h etype.h english.h
 
-emacs1:		$(OFILES)
-		$(CC) $(CFLAGS) -o emacs1 $(OFILES) -ltermcap -lc
+dynamic:	$(OFILES)
+		$(CC) $(CFLAGS) -o dynamic $(OFILES) -ltermcap -lc
 
 $(OFILES):	$(HFILES)
+
+main.o:		ebind.h edef.h
 
 clean:
 		rm -f $(OFILES) core *.b

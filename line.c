@@ -1,31 +1,3 @@
-/*
- * $Id: line.c,v 1.3 1994/08/15 21:27:30 sev Exp $
- * 
- * ----------------------------------------------------------
- * 
- * $Log: line.c,v $
- * Revision 1.3  1994/08/15 21:27:30  sev
- * i'm sorry, but this indent IMHO more better ;-)
- * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
- * 1.1  1994/06/24  14:17:12  sev Initial revision
- * 
- * 
- */
-
-/*
- * The functions in this file are a general set of line management utilities.
- * They are the only routines that touch the text. They also touch the buffer
- * and window structures, to make sure that the necessary updating gets done.
- * There are routines in this file that handle the kill buffer too. It isn't
- * here for any good reason.
- * 
- * Note that this code only updates the dot and mark values in the window list.
- * Since all the code acts on the current window, the buffer that we are
- * editing must be being displayed, which means that "b_nwnd" is non zero,
- * which means that the dot and mark values in the buffer headers are
- * nonsense.
- */
-
 #include	<stdio.h>
 #include	"estruct.h"
 #include	"etype.h"
@@ -40,11 +12,7 @@
  * if there isn't any memory left. Print a message in the message line if no
  * space.
  */
-
-LINE *lalloc(used)
-
-register int used;
-
+LINE *lalloc(int used)
 {
   register LINE *lp;
 
@@ -65,8 +33,7 @@ register int used;
  * it might be in. Release the memory. The buffers are updated too; the magic
  * conditions described in the above comments don't hold here.
  */
-lfree(lp)
-register LINE *lp;
+lfree(LINE *lp)
 {
   register BUFFER *bp;
   register WINDOW *wp;
@@ -125,8 +92,7 @@ register LINE *lp;
  * being displayed in more than 1 window we change EDIT t HARD. Set MODE if
  * the mode line needs to be updated (the "*" has to be set).
  */
-lchange(flag)
-register int flag;
+lchange(int flag)
 {
   register WINDOW *wp;
 
@@ -148,39 +114,6 @@ register int flag;
   }
 }
 
-insspace(f, n)			  /* insert spaces forward into text */
-
-int f, n;			  /* default flag and numeric argument */
-
-{
-  linsert(n, ' ');
-  backchar(f, n);
-}
-
-/* linstr -- Insert a string at the current point */
-
-linstr(instr)
-char *instr;
-{
-  register int status = TRUE;
-
-  if (instr != (char *) NULL)
-    while (*instr && status == TRUE)
-    {
-      status = ((*instr == '\r') ? lnewline() : linsert(1, *instr));
-
-      /* Insertion error? */
-      if (status != TRUE)
-      {
-	mlwrite(TEXT168);
-	/* "%%Can not insert string" */
-	break;
-      }
-      instr++;
-    }
-  return (status);
-}
-
 /*
  * Insert "n" copies of the character "c" at the current location of dot. In
  * the easy case all that happens is the text is stored in the line. In the
@@ -190,10 +123,7 @@ char *instr;
  * greater than the place where you did the insert. Return TRUE if all is
  * well, and FALSE on errors.
  */
-
-linsert(n, c)
-int n;
-char c;
+int linsert(int n, char c)
 {
   register char *cp1;
   register char *cp2;
@@ -351,16 +281,9 @@ lnewline()
 }
 
 /*
- * This function deletes "n" bytes, starting at dot. It understands how to
- * deal with end of lines, etc. It returns TRUE if all of the characters were
- * deleted, and FALSE if they were not (because dot ran into the end of the
- * buffer. The "kflag" is TRUE if the text should be put in the kill buffer.
+ * This function deletes "n" bytes, starting at dot.
  */
-ldelete(n, kflag)
-
-long n;				  /* # of chars to delete */
-int kflag;			  /* put killed text in kill buffer flag */
-
+ldelete(long n)
 {
   register char *cp1;
   register char *cp2;
@@ -384,25 +307,14 @@ int kflag;			  /* put killed text in kill buffer flag */
     if (chunk == 0)
     {				  /* End of line, merge.  */
       lchange(WFHARD);
-      if (ldelnewline() == FALSE
-	  || (kflag != FALSE && kinsert('\r') == FALSE))
-	return (FALSE);
+      if (ldelnewline() == FALSE)
+	  	return (FALSE);
       --n;
       continue;
     }
     lchange(WFEDIT);
     cp1 = &dotp->l_text[doto];	  /* Scrunch text.	      */
     cp2 = cp1 + chunk;
-    if (kflag != FALSE)
-    {				  /* Kill?		      */
-      while (cp1 != cp2)
-      {
-	if (kinsert(*cp1) == FALSE)
-	  return (FALSE);
-	++cp1;
-      }
-      cp1 = &dotp->l_text[doto];
-    }
     while (cp2 != &dotp->l_text[dotp->l_used])
       *cp1++ = *cp2++;
     dotp->l_used -= chunk;
@@ -531,113 +443,5 @@ ldelnewline()
   }
   free((char *) lp1);
   free((char *) lp2);
-  return (TRUE);
-}
-
-/*
- * Delete all of the text saved in the kill buffer. Called by commands when a
- * new kill context is being created. The kill buffer array is released, just
- * in case the buffer has grown to immense size. No errors.
- */
-kdelete()
-{
-  KILL *kp;			  /* ptr to scan kill buffer chunk list */
-
-  if (kbufh != (KILL *) NULL)
-  {
-
-    /* first, delete all the chunks */
-    kbufp = kbufh;
-    while (kbufp != (KILL *) NULL)
-    {
-      kp = kbufp->d_next;
-      free(kbufp);
-      kbufp = kp;
-    }
-
-    /* and reset all the kill buffer pointers */
-    kbufh = kbufp = (KILL *) NULL;
-    kused = KBLOCK;
-  }
-}
-
-/*
- * Insert a character to the kill buffer, allocating new chunks as needed.
- * Return TRUE if all is well, and FALSE on errors.
- */
-
-kinsert(c)
-
-char c;				  /* character to insert in the kill buffer */
-
-{
-  KILL *nchunk;			  /* ptr to newly malloced chunk */
-
-  /* check to see if we need a new chunk */
-  if (kused >= KBLOCK)
-  {
-    if ((nchunk = (KILL *) malloc(sizeof(KILL))) == (KILL *) NULL)
-      return (FALSE);
-    if (kbufh == (KILL *) NULL)	  /* set head ptr if first time */
-      kbufh = nchunk;
-    if (kbufp != (KILL *) NULL)	  /* point the current to this new one */
-      kbufp->d_next = nchunk;
-    kbufp = nchunk;
-    kbufp->d_next = (KILL *) NULL;
-    kused = 0;
-  }
-
-  /* and now insert the character */
-  kbufp->d_chunk[kused++] = c;
-  return (TRUE);
-}
-
-/*
- * Yank text back from the kill buffer. This is really easy. All of the work
- * is done by the standard insert routines. All you do is run the loop, and
- * check for errors. Bound to "C-Y".
- */
-yank(f, n)
-{
-  register int c;
-  register int i;
-  register char *sp;		  /* pointer into string to insert */
-  KILL *kp;			  /* pointer into kill buffer */
-
-  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
-    return (rdonly());		  /* we are in read only mode	 */
-  if (n < 0)
-    return (FALSE);
-  /* make sure there is something to yank */
-  if (kbufh == (KILL *) NULL)
-    return (TRUE);		  /* not an error, just nothing */
-
-  /* for each time.... */
-  while (n--)
-  {
-    kp = kbufh;
-    while (kp != (KILL *) NULL)
-    {
-      if (kp->d_next == (KILL *) NULL)
-	i = kused;
-      else
-	i = KBLOCK;
-      sp = kp->d_chunk;
-      while (i--)
-      {
-	if ((c = *sp++) == '\r')
-	{
-	  if (lnewline() == FALSE)
-	    return (FALSE);
-	}
-	else
-	{
-	  if (linsert(1, c) == FALSE)
-	    return (FALSE);
-	}
-      }
-      kp = kp->d_next;
-    }
-  }
   return (TRUE);
 }
