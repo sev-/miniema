@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.2 1994/06/24 17:22:21 sev Exp $
+#  $Id: makefile,v 1.3 1994/06/28 16:27:33 sev Exp $
 #
 # ---------------------------------------------------------- 
 #
 # $Log: makefile,v $
-# Revision 1.2  1994/06/24 17:22:21  sev
+# Revision 1.3  1994/06/28 16:27:33  sev
+# Last time I forgot english.h :-(
+#
+# Revision 1.2  1994/06/24  17:22:21  sev
 # added menu.c
 #
 # Revision 1.1  1994/06/24  14:17:12  sev
@@ -24,7 +27,7 @@ CFILES=		basic.c buffer.c char.c display.c\
 		file.c fileio.c input.c line.c main.c menu.c\
 		random.c region.c search.c tcap.c unix.c
 
-HFILES=		estruct.h edef.h ebind.h etype.h
+HFILES=		estruct.h edef.h ebind.h etype.h english.h
 
 emacs1:		$(OFILES)
 		$(CC) $(CFLAGS) -o emacs1 $(OFILES) -ltermcap -lc
