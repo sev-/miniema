@@ -1,12 +1,13 @@
 /*
- * $Id: fileio.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: fileio.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: fileio.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -24,8 +25,8 @@
 #include	"edef.h"
 #include	"english.h"
 
-FILE *ffp;			       /* File pointer, all functions. */
-static int eofflag;		       /* end-of-file flag */
+FILE *ffp;			  /* File pointer, all functions. */
+static int eofflag;		  /* end-of-file flag */
 
 /* Open a file for reading. */
 ffropen(fn)
@@ -106,9 +107,9 @@ char buf[];
 ffgetline()
 
 {
-  register int c;		       /* current character read */
-  register int i;		       /* current index into fline */
-  register char *tmpline;	       /* temp storage for expanding line */
+  register int c;		  /* current character read */
+  register int i;		  /* current index into fline */
+  register char *tmpline;	  /* temp storage for expanding line */
 
   /* if we are at the end...return it */
   if (eofflag)
@@ -164,9 +165,9 @@ ffgetline()
   return (FIOSUC);
 }
 
-int fexist(fname)		       /* does <fname> exist on disk? */
+int fexist(fname)		  /* does <fname> exist on disk? */
 
-char *fname;			       /* file to check for existance */
+char *fname;			  /* file to check for existance */
 
 {
   FILE *fp;

@@ -1,12 +1,13 @@
 /*
- * $Id: english.h,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: english.h,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: english.h,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */

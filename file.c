@@ -1,12 +1,13 @@
 /*
- * $Id: file.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: file.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: file.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -36,8 +37,8 @@
 
 readin(fname, lockfl)
 
-char fname[];			       /* name of file to read */
-int lockfl;			       /* check for file locks? */
+char fname[];			  /* name of file to read */
+int lockfl;			  /* check for file locks? */
 
 {
   register LINE *lp1;
@@ -48,11 +49,11 @@ int lockfl;			       /* check for file locks? */
   register int s;
   register int nbytes;
   register int nline;
-  register int cmark;		       /* current mark */
+  register int cmark;		  /* current mark */
   char mesg[NSTRING];
 
-  bp = curbp;			       /* Cheap.		 */
-  if ((s = bclear(bp)) != TRUE)	       /* Might be old.	 */
+  bp = curbp;			  /* Cheap.		 */
+  if ((s = bclear(bp)) != TRUE)	  /* Might be old.	 */
     return (s);
   bp->b_flag &= ~(BFINVS | BFCHG);
   strcpy(bp->b_fname, fname);
@@ -60,11 +61,11 @@ int lockfl;			       /* check for file locks? */
   /* turn off ALL keyboard translation in case we get a dos error */
   TTkclose();
 
-  if ((s = ffropen(fname)) == FIOERR)  /* Hard file open.	 */
+  if ((s = ffropen(fname)) == FIOERR)	/* Hard file open.	 */
     goto out;
 
   if (s == FIOFNF)
-  {				       /* File not found.	 */
+  {				  /* File not found.	 */
     mlwrite(TEXT138);
     /* "[New file]" */
     goto out;
@@ -79,8 +80,8 @@ int lockfl;			       /* check for file locks? */
     nbytes = strlen(fline);
     if ((lp1 = lalloc(nbytes)) == (LINE *) NULL)
     {
-      s = FIOMEM;		       /* Keep message on the	 */
-      break;			       /* display.		 */
+      s = FIOMEM;		  /* Keep message on the	 */
+      break;			  /* display.		 */
     }
     lp2 = lback(curbp->b_linep);
     lp2->l_fp = lp1;
@@ -91,7 +92,7 @@ int lockfl;			       /* check for file locks? */
       lputc(lp1, i, fline[i]);
     ++nline;
   }
-  ffclose();			       /* Ignore errors.       */
+  ffclose();			  /* Ignore errors.       */
   strcpy(mesg, "[");
   if (s == FIOERR)
   {
@@ -116,7 +117,7 @@ int lockfl;			       /* check for file locks? */
   mlwrite(mesg);
 
 out:
-  TTkopen();			       /* open the keyboard again */
+  TTkopen();			  /* open the keyboard again */
   for (wp = wheadp; wp != (WINDOW *) NULL; wp = wp->w_wndp)
   {
     if (wp->w_bufp == curbp)
@@ -132,7 +133,7 @@ out:
       wp->w_flag |= WFMODE | WFHARD;
     }
   }
-  if (s == FIOERR || s == FIOFNF)      /* False if error.      */
+  if (s == FIOERR || s == FIOFNF) /* False if error.      */
     return (FALSE);
   return (TRUE);
 }
@@ -169,9 +170,9 @@ char fname[];
   return (pathp);
 }
 
-unqname(name)			       /* make sure a buffer name is unique */
+unqname(name)			  /* make sure a buffer name is unique */
 
-char *name;			       /* name to check on */
+char *name;			  /* name to check on */
 
 {
   register char *sp;
@@ -204,12 +205,12 @@ filesave(f, n)
 {
   register int s;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
-  if ((curbp->b_flag & BFCHG) == 0)    /* Return, no changes.	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
+  if ((curbp->b_flag & BFCHG) == 0)	/* Return, no changes.	 */
     return (TRUE);
   if (curbp->b_fname[0] == 0)
-  {				       /* Must have a name.    */
+  {				  /* Must have a name.    */
     mlwrite(TEXT145);
     /* "No file name" */
     return (FALSE);
@@ -260,17 +261,16 @@ filesave(f, n)
 
 writeout(fn)
 
-char *fn;			       /* name of file to write current
-				        * buffer to */
+char *fn;			  /* name of file to write current buffer to */
 
 {
-  register LINE *lp;		       /* line to scan while writing */
-  register char *sp;		       /* temporary string pointer */
-  register int nline;		       /* number of lines written */
-  int status;			       /* return status */
-  int sflag;			       /* are we safe saving? */
-  char tname[NSTRING];		       /* temporary file name */
-  char buf[NSTRING];		       /* message buffer */
+  register LINE *lp;		  /* line to scan while writing */
+  register char *sp;		  /* temporary string pointer */
+  register int nline;		  /* number of lines written */
+  int status;			  /* return status */
+  int sflag;			  /* are we safe saving? */
+  char tname[NSTRING];		  /* temporary file name */
+  char buf[NSTRING];		  /* message buffer */
 
   /* determine if we will use the save method */
   sflag = FALSE;
@@ -308,10 +308,10 @@ char *fn;			       /* name of file to write current
   }
 
   /* write the current buffer's lines to the open disk file */
-  mlwrite(TEXT148);		       /* tell us that we're writing */
+  mlwrite(TEXT148);		  /* tell us that we're writing */
   /* "[Writing...]" */
-  lp = lforw(curbp->b_linep);	       /* start at the first line.     */
-  nline = 0;			       /* track the Number of lines	 */
+  lp = lforw(curbp->b_linep);	  /* start at the first line.     */
+  nline = 0;			  /* track the Number of lines	 */
   while (lp != curbp->b_linep)
   {
     if ((status = ffputline(&lp->l_text[0], llength(lp))) != FIOSUC)
@@ -346,7 +346,7 @@ char *fn;			       /* name of file to write current
 	strcat(buf, TEXT150);
 	/* ", saved as " */
 	strcat(buf, tname);
-	status = FIODEL;	       /* failed */
+	status = FIODEL;	  /* failed */
       }
     }
     strcat(buf, "]");

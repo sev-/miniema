@@ -1,12 +1,13 @@
 /*
- * $Id: basic.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: basic.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: basic.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -238,14 +239,14 @@ register int n;
 
   if (f == FALSE)
   {
-    n = curwp->w_ntrows - 2;	       /* Default scroll.	 */
-    if (n <= 0)			       /* Forget the overlap	 */
-      n = 1;			       /* if tiny window.	 */
+    n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
+    if (n <= 0)			  /* Forget the overlap	 */
+      n = 1;			  /* if tiny window.	 */
   }
   else if (n < 0)
     return (backpage(f, -n));
-  else				       /* Convert from pages	 */
-    n *= curwp->w_ntrows;	       /* to lines.		 */
+  else				  /* Convert from pages	 */
+    n *= curwp->w_ntrows;	  /* to lines.		 */
   lp = curwp->w_linep;
   while (n-- && lp != curbp->b_linep)
     lp = lforw(lp);
@@ -270,14 +271,14 @@ register int n;
 
   if (f == FALSE)
   {
-    n = curwp->w_ntrows - 2;	       /* Default scroll.	 */
-    if (n <= 0)			       /* Don't blow up if the */
-      n = 1;			       /* window is tiny.	 */
+    n = curwp->w_ntrows - 2;	  /* Default scroll.	 */
+    if (n <= 0)			  /* Don't blow up if the */
+      n = 1;			  /* window is tiny.	 */
   }
   else if (n < 0)
     return (forwpage(f, -n));
-  else				       /* Convert from pages	 */
-    n *= curwp->w_ntrows;	       /* to lines.		 */
+  else				  /* Convert from pages	 */
+    n *= curwp->w_ntrows;	  /* to lines.		 */
   lp = curwp->w_linep;
   while (n-- && lback(lp) != curbp->b_linep)
     lp = lback(lp);
@@ -312,7 +313,7 @@ int setmark(f, n)
  * only possible error is "no mark". Bound to "M-^G".
  */
 int gotomark(f, n)
-int f, n;			       /* default and nemeric args */
+int f, n;			  /* default and nemeric args */
 {
   /* make sure it is in range */
   if (f == FALSE)

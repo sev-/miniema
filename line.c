@@ -1,12 +1,13 @@
 /*
- * $Id: line.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: line.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: line.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -69,7 +70,7 @@ register LINE *lp;
 {
   register BUFFER *bp;
   register WINDOW *wp;
-  register int cmark;		       /* current mark */
+  register int cmark;		  /* current mark */
 
   wp = wheadp;
   while (wp != (WINDOW *) NULL)
@@ -129,11 +130,11 @@ register int flag;
 {
   register WINDOW *wp;
 
-  if (curbp->b_nwnd != 1)	       /* Ensure hard. 	 */
+  if (curbp->b_nwnd != 1)	  /* Ensure hard. 	 */
     flag = WFHARD;
   if ((curbp->b_flag & BFCHG) == 0)
-  {				       /* First change, so     */
-    flag |= WFMODE;		       /* update mode lines.	 */
+  {				  /* First change, so     */
+    flag |= WFMODE;		  /* update mode lines.	 */
     curbp->b_flag |= BFCHG;
   }
 
@@ -147,9 +148,9 @@ register int flag;
   }
 }
 
-insspace(f, n)			       /* insert spaces forward into text */
+insspace(f, n)			  /* insert spaces forward into text */
 
-int f, n;			       /* default flag and numeric argument */
+int f, n;			  /* default flag and numeric argument */
 
 {
   linsert(n, ' ');
@@ -202,14 +203,14 @@ char c;
   register int doto;
   register int i;
   register WINDOW *wp;
-  int cmark;			       /* current mark */
+  int cmark;			  /* current mark */
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   lchange(WFEDIT);
-  lp1 = curwp->w_dotp;		       /* Current line	       */
+  lp1 = curwp->w_dotp;		  /* Current line	       */
   if (lp1 == curbp->b_linep)
-  {				       /* At the end: special	 */
+  {				  /* At the end: special	 */
     if (curwp->w_doto != 0)
     {
       mlwrite(TEXT170);
@@ -219,8 +220,8 @@ char c;
     if ((lp2 = lalloc(BSIZE(n))) == (LINE *) NULL)	/* Allocate new line    */
       return (FALSE);
     lp2->l_used = n;
-    lp3 = lp1->l_bp;		       /* Previous line	      */
-    lp3->l_fp = lp2;		       /* Link in		 */
+    lp3 = lp1->l_bp;		  /* Previous line	      */
+    lp3->l_fp = lp2;		  /* Link in		 */
     lp2->l_fp = lp1;
     lp1->l_bp = lp2;
     lp2->l_bp = lp3;
@@ -230,9 +231,9 @@ char c;
     curwp->w_doto = n;
     return (TRUE);
   }
-  doto = curwp->w_doto;		       /* Save for later.      */
+  doto = curwp->w_doto;		  /* Save for later.      */
   if (lp1->l_used + n > lp1->l_size)
-  {				       /* Hard: reallocate	 */
+  {				  /* Hard: reallocate	 */
     if ((lp2 = lalloc(BSIZE(lp1->l_used + n))) == (LINE *) NULL)
       return (FALSE);
     lp2->l_used = lp1->l_used + n;
@@ -250,17 +251,17 @@ char c;
     free((char *) lp1);
   }
   else
-  {				       /* Easy: in place	     */
-    lp2 = lp1;			       /* Pretend new line	 */
+  {				  /* Easy: in place	     */
+    lp2 = lp1;			  /* Pretend new line	 */
     lp2->l_used += n;
     cp2 = &lp1->l_text[lp1->l_used];
     cp1 = cp2 - n;
     while (cp1 != &lp1->l_text[doto])
       *--cp2 = *--cp1;
   }
-  for (i = 0; i < n; ++i)	       /* Add the characters   */
+  for (i = 0; i < n; ++i)	  /* Add the characters   */
     lp2->l_text[doto + i] = c;
-  wp = wheadp;			       /* Update windows	 */
+  wp = wheadp;			  /* Update windows	 */
   while (wp != (WINDOW *) NULL)
   {
     if (wp->w_linep == lp1)
@@ -301,16 +302,16 @@ lnewline()
   register LINE *lp2;
   register int doto;
   register WINDOW *wp;
-  int cmark;			       /* current mark */
+  int cmark;			  /* current mark */
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   lchange(WFHARD);
-  lp1 = curwp->w_dotp;		       /* Get the address and  */
-  doto = curwp->w_doto;		       /* offset of "."	 */
+  lp1 = curwp->w_dotp;		  /* Get the address and  */
+  doto = curwp->w_doto;		  /* offset of "."	 */
   if ((lp2 = lalloc(doto)) == (LINE *) NULL)	/* New first half line	 */
     return (FALSE);
-  cp1 = &lp1->l_text[0];	       /* Shuffle text around  */
+  cp1 = &lp1->l_text[0];	  /* Shuffle text around  */
   cp2 = &lp2->l_text[0];
   while (cp1 != &lp1->l_text[doto])
     *cp2++ = *cp1++;
@@ -322,7 +323,7 @@ lnewline()
   lp1->l_bp = lp2;
   lp2->l_bp->l_fp = lp2;
   lp2->l_fp = lp1;
-  wp = wheadp;			       /* Windows		  */
+  wp = wheadp;			  /* Windows		  */
   while (wp != (WINDOW *) NULL)
   {
     if (wp->w_linep == lp1)
@@ -357,8 +358,8 @@ lnewline()
  */
 ldelete(n, kflag)
 
-long n;				       /* # of chars to delete */
-int kflag;			       /* put killed text in kill buffer flag */
+long n;				  /* # of chars to delete */
+int kflag;			  /* put killed text in kill buffer flag */
 
 {
   register char *cp1;
@@ -367,21 +368,21 @@ int kflag;			       /* put killed text in kill buffer flag */
   register int doto;
   register int chunk;
   register WINDOW *wp;
-  int cmark;			       /* current mark */
+  int cmark;			  /* current mark */
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   while (n != 0)
   {
     dotp = curwp->w_dotp;
     doto = curwp->w_doto;
-    if (dotp == curbp->b_linep)	       /* Hit end of buffer.   */
+    if (dotp == curbp->b_linep)	  /* Hit end of buffer.   */
       return (FALSE);
-    chunk = dotp->l_used - doto;       /* Size of chunk.       */
+    chunk = dotp->l_used - doto;  /* Size of chunk.       */
     if (chunk > n)
       chunk = n;
     if (chunk == 0)
-    {				       /* End of line, merge.  */
+    {				  /* End of line, merge.  */
       lchange(WFHARD);
       if (ldelnewline() == FALSE
 	  || (kflag != FALSE && kinsert('\r') == FALSE))
@@ -390,10 +391,10 @@ int kflag;			       /* put killed text in kill buffer flag */
       continue;
     }
     lchange(WFEDIT);
-    cp1 = &dotp->l_text[doto];	       /* Scrunch text.	      */
+    cp1 = &dotp->l_text[doto];	  /* Scrunch text.	      */
     cp2 = cp1 + chunk;
     if (kflag != FALSE)
-    {				       /* Kill?		      */
+    {				  /* Kill?		      */
       while (cp1 != cp2)
       {
 	if (kinsert(*cp1) == FALSE)
@@ -405,7 +406,7 @@ int kflag;			       /* put killed text in kill buffer flag */
     while (cp2 != &dotp->l_text[dotp->l_used])
       *cp1++ = *cp2++;
     dotp->l_used -= chunk;
-    wp = wheadp;		       /* Fix windows 	 */
+    wp = wheadp;		  /* Fix windows 	 */
     while (wp != (WINDOW *) NULL)
     {
       if (wp->w_dotp == dotp && wp->w_doto >= doto)
@@ -447,15 +448,15 @@ ldelnewline()
   register LINE *lp2;
   register LINE *lp3;
   register WINDOW *wp;
-  int cmark;			       /* current mark */
+  int cmark;			  /* current mark */
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   lp1 = curwp->w_dotp;
   lp2 = lp1->l_fp;
   if (lp2 == curbp->b_linep)
-  {				       /* At the buffer end.   */
-    if (lp1->l_used == 0)	       /* Blank line.		 */
+  {				  /* At the buffer end.   */
+    if (lp1->l_used == 0)	  /* Blank line.		 */
       lfree(lp1);
     return (TRUE);
   }
@@ -540,7 +541,7 @@ ldelnewline()
  */
 kdelete()
 {
-  KILL *kp;			       /* ptr to scan kill buffer chunk list */
+  KILL *kp;			  /* ptr to scan kill buffer chunk list */
 
   if (kbufh != (KILL *) NULL)
   {
@@ -567,20 +568,19 @@ kdelete()
 
 kinsert(c)
 
-char c;				       /* character to insert in the kill
-				        * buffer */
+char c;				  /* character to insert in the kill buffer */
 
 {
-  KILL *nchunk;			       /* ptr to newly malloced chunk */
+  KILL *nchunk;			  /* ptr to newly malloced chunk */
 
   /* check to see if we need a new chunk */
   if (kused >= KBLOCK)
   {
     if ((nchunk = (KILL *) malloc(sizeof(KILL))) == (KILL *) NULL)
       return (FALSE);
-    if (kbufh == (KILL *) NULL)	       /* set head ptr if first time */
+    if (kbufh == (KILL *) NULL)	  /* set head ptr if first time */
       kbufh = nchunk;
-    if (kbufp != (KILL *) NULL)	       /* point the current to this new one */
+    if (kbufp != (KILL *) NULL)	  /* point the current to this new one */
       kbufp->d_next = nchunk;
     kbufp = nchunk;
     kbufp->d_next = (KILL *) NULL;
@@ -601,16 +601,16 @@ yank(f, n)
 {
   register int c;
   register int i;
-  register char *sp;		       /* pointer into string to insert */
-  KILL *kp;			       /* pointer into kill buffer */
+  register char *sp;		  /* pointer into string to insert */
+  KILL *kp;			  /* pointer into kill buffer */
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   if (n < 0)
     return (FALSE);
   /* make sure there is something to yank */
   if (kbufh == (KILL *) NULL)
-    return (TRUE);		       /* not an error, just nothing */
+    return (TRUE);		  /* not an error, just nothing */
 
   /* for each time.... */
   while (n--)

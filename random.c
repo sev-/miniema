@@ -1,12 +1,13 @@
 /*
- * $Id: random.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: random.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: random.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -22,11 +23,11 @@
 #include	"edef.h"
 #include	"english.h"
 
-getcline()			       /* get the current line number */
+getcline()			  /* get the current line number */
 
 {
-  register LINE *lp;		       /* current line */
-  register int numlines;	       /* # of lines before point */
+  register LINE *lp;		  /* current line */
+  register int numlines;	  /* # of lines before point */
 
   /* starting at the beginning of the buffer */
   lp = lforw(curbp->b_linep);
@@ -79,8 +80,8 @@ quote(f, n)
 {
   register int c;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   c = tgetc();
   if (n < 0)
     return (FALSE);
@@ -119,8 +120,8 @@ newline(f, n)
 {
   register int s;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   if (n < 0)
     return (FALSE);
 
@@ -138,18 +139,16 @@ newline(f, n)
   return (TRUE);
 }
 
-cinsert()			       /* insert a newline and indentation
-				        * for C */
+cinsert()			  /* insert a newline and indentation for C */
 
 {
-  register char *cptr;		       /* string pointer into text to copy */
-  register int i;		       /* index into line to copy indent from */
-  register int llen;		       /* length of line to copy indent from */
-  register int bracef;		       /* was there a brace at the end of
-				        * line? */
-  register LINE *lp;		       /* current line pointer */
+  register char *cptr;		  /* string pointer into text to copy */
+  register int i;		  /* index into line to copy indent from */
+  register int llen;		  /* length of line to copy indent from */
+  register int bracef;		  /* was there a brace at the end of line? */
+  register LINE *lp;		  /* current line pointer */
   register int offset;
-  char ichar[NSTRING];		       /* buffer to hold indent of last line */
+  char ichar[NSTRING];		  /* buffer to hold indent of last line */
 
   /* trim the whitespace before the point */
   lp = curwp->w_dotp;
@@ -190,7 +189,7 @@ cinsert()			       /* insert a newline and indentation
     ichar[i] = cptr[i];
     ++i;
   }
-  ichar[i] = 0;			       /* terminate it */
+  ichar[i] = 0;			  /* terminate it */
 
   /* insert this saved indentation */
   linstr(ichar);
@@ -216,8 +215,8 @@ indent(f, n)
   register int c;
   register int i;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   if (n < 0)
     return (FALSE);
   while (n--)
@@ -248,12 +247,12 @@ indent(f, n)
  */
 forwdel(f, n)
 {
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   if (n < 0)
     return (backdel(f, -n));
   if (f != FALSE)
-  {				       /* Really a kill.	 */
+  {				  /* Really a kill.	 */
     if ((lastflag & CFKILL) == 0)
       kdelete();
     thisflag |= CFKILL;
@@ -271,12 +270,12 @@ backdel(f, n)
 {
   register int s;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
   if (n < 0)
     return (forwdel(f, -n));
   if (f != FALSE)
-  {				       /* Really a kill.	 */
+  {				  /* Really a kill.	 */
     if ((lastflag & CFKILL) == 0)
       kdelete();
     thisflag |= CFKILL;
@@ -299,10 +298,10 @@ killtext(f, n)
   register LINE *nextp;
   long chunk;
 
-  if (curbp->b_mode & MDVIEW)	       /* don't allow this command if	 */
-    return (rdonly());		       /* we are in read only mode	 */
-  if ((lastflag & CFKILL) == 0)	       /* Clear kill buffer if */
-    kdelete();			       /* last wasn't a kill.	 */
+  if (curbp->b_mode & MDVIEW)	  /* don't allow this command if	 */
+    return (rdonly());		  /* we are in read only mode	 */
+  if ((lastflag & CFKILL) == 0)	  /* Clear kill buffer if */
+    kdelete();			  /* last wasn't a kill.	 */
   thisflag |= CFKILL;
   if (f == FALSE)
   {
@@ -346,14 +345,14 @@ refresh(f, n)
     sgarbf = TRUE;
   else
   {
-    curwp->w_force = 0;		       /* Center dot. */
+    curwp->w_force = 0;		  /* Center dot. */
     curwp->w_flag |= WFFORCE;
   }
 
   return (TRUE);
 }
 
-char *fixnull(s)		       /* Don't return NULL pointers! */
+char *fixnull(s)		  /* Don't return NULL pointers! */
 
 char *s;
 
@@ -371,13 +370,13 @@ char *s;
 
 char *int_asc(i)
 
-int i;				       /* integer to translate to a string */
+int i;				  /* integer to translate to a string */
 
 {
-  register int digit;		       /* current digit being used */
-  register char *sp;		       /* pointer into result */
-  register int sign;		       /* sign of resulting number */
-  static char result[INTWIDTH + 1];    /* resulting string */
+  register int digit;		  /* current digit being used */
+  register char *sp;		  /* pointer into result */
+  register int sign;		  /* sign of resulting number */
+  static char result[INTWIDTH + 1];	/* resulting string */
 
   /* record the sign... */
   sign = 1;
@@ -393,21 +392,20 @@ int i;				       /* integer to translate to a string */
   do
   {
     digit = i % 10;
-    *(--sp) = '0' + digit;	       /* and install the new digit */
+    *(--sp) = '0' + digit;	  /* and install the new digit */
     i = i / 10;
   } while (i);
 
   /* and fix the sign */
   if (sign == -1)
   {
-    *(--sp) = '-';		       /* and install the minus sign */
+    *(--sp) = '-';		  /* and install the minus sign */
   }
 
   return (sp);
 }
 
-int absv(x)			       /* take the absolute value of an
-				        * integer */
+int absv(x)			  /* take the absolute value of an integer */
 
 int x;
 
@@ -415,20 +413,20 @@ int x;
   return (x < 0 ? -x : x);
 }
 
-int ernd()			       /* returns a random integer */
+int ernd()			  /* returns a random integer */
 
 {
   seed = absv(seed * 1721 + 10007);
   return (seed);
 }
 
-int execkey(key, f, n)		       /* execute a function bound to a key */
+int execkey(key, f, n)		  /* execute a function bound to a key */
 
-KEYTAB *key;			       /* key to execute */
-int f, n;			       /* agruments to C function */
+KEYTAB *key;			  /* key to execute */
+int f, n;			  /* agruments to C function */
 
 {
-  register int status;		       /* error return */
+  register int status;		  /* error return */
 
   if (key->k_type == BINDFNC)
     return ((*(key->k_ptr.fp)) (f, n));
@@ -439,7 +437,7 @@ int f, n;			       /* agruments to C function */
 
 KEYTAB *getbind(c)
 
-int c;				       /* key to find what is bound to it */
+int c;				  /* key to find what is bound to it */
 
 {
   register KEYTAB *ktp;

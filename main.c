@@ -1,12 +1,13 @@
 /*
- * $Id: main.c,v 1.3 1994/08/15 20:42:11 sev Exp $
+ * $Id: main.c,v 1.4 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: main.c,v $
- * Revision 1.3  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.2  1994/06/27  11:18:43  sev Menu...
+ * Revision 1.4  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
+ * 1.2  1994/06/27  11:18:43  sev Menu...
  * 
  * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
@@ -32,11 +33,11 @@
 /* make global definitions not external */
 #define maindef
 
-#include	"estruct.h"	       /* global structures and defines */
-#include	"etype.h"	       /* variable prototype definitions */
-#include	"edef.h"	       /* global definitions */
-#include	"english.h"	       /* human language definitions */
-#include	"ebind.h"	       /* default key bindings */
+#include	"estruct.h"	  /* global structures and defines */
+#include	"etype.h"	  /* variable prototype definitions */
+#include	"edef.h"	  /* global definitions */
+#include	"english.h"	  /* human language definitions */
+#include	"ebind.h"	  /* default key bindings */
 
 /* for many different systems, increase the default stack space */
 
@@ -65,19 +66,19 @@ emacs(argc, argv)
 main(argc, argv)
 #endif
 
-int argc;			       /* # of arguments */
-char *argv[];			       /* argument strings */
+int argc;			  /* # of arguments */
+char *argv[];			  /* argument strings */
 
 {
   register int status;
 
   /* Initialize the editor */
   eexitflag = FALSE;
-  vtinit();			       /* Terminal */
+  vtinit();			  /* Terminal */
   if (eexitflag)
     goto abortrun;
-  edinit("main");		       /* Buffers, windows */
-  initchars();			       /* character set definitions */
+  edinit("main");		  /* Buffers, windows */
+  initchars();			  /* character set definitions */
   initmenus();
 
   /* Process the command line and let the user edit */
@@ -105,9 +106,9 @@ abortrun:
 
 clean()
 {
-  register BUFFER *bp;		       /* buffer list pointer */
-  register WINDOW *wp;		       /* window list pointer */
-  register WINDOW *tp;		       /* temporary window pointer */
+  register BUFFER *bp;		  /* buffer list pointer */
+  register WINDOW *wp;		  /* window list pointer */
+  register WINDOW *tp;		  /* temporary window pointer */
 
   /* first clean up the windows */
   wp = wheadp;
@@ -124,8 +125,8 @@ clean()
   while (bp)
   {
     bp->b_nwnd = 0;
-    bp->b_flag = 0;		       /* don't say anything about a changed
-				        * buffer! */
+    bp->b_flag = 0;		  /* don't say anything about a changed
+				   * buffer! */
     zotbuf(bp);
     bp = bheadp;
   }
@@ -154,20 +155,19 @@ int argc;
 char *argv[];
 
 {
-  register BUFFER *bp;		       /* temp buffer pointer */
-  register int firstfile;	       /* first file flag */
-  register int carg;		       /* current arg to scan */
-  BUFFER *firstbp = (BUFFER *) NULL;   /* ptr to first buffer in cmd line */
-  int viewflag;			       /* are we starting in view mode? */
-  int gotoflag;			       /* do we need to goto a line at start? */
-  int searchflag;		       /* Do we need to search at start? */
-  char bname[NBUFN];		       /* buffer name of file to read */
+  register BUFFER *bp;		  /* temp buffer pointer */
+  register int firstfile;	  /* first file flag */
+  register int carg;		  /* current arg to scan */
+  BUFFER *firstbp = (BUFFER *) NULL;	/* ptr to first buffer in cmd line */
+  int viewflag;			  /* are we starting in view mode? */
+  int gotoflag;			  /* do we need to goto a line at start? */
+  int searchflag;		  /* Do we need to search at start? */
+  char bname[NBUFN];		  /* buffer name of file to read */
 
-  viewflag = FALSE;		       /* view mode defaults off in command
-				        * line */
-  gotoflag = FALSE;		       /* set to off to begin with */
-  searchflag = FALSE;		       /* set to off to begin with */
-  firstfile = TRUE;		       /* no file to edit yet */
+  viewflag = FALSE;		  /* view mode defaults off in command line */
+  gotoflag = FALSE;		  /* set to off to begin with */
+  searchflag = FALSE;		  /* set to off to begin with */
+  firstfile = TRUE;		  /* no file to edit yet */
   /* Parse a command line */
   for (carg = 1; carg < argc; ++carg)
   {
@@ -178,25 +178,25 @@ char *argv[];
       switch (argv[carg][1])
       {
 	  /* Process Startup macroes */
-	case 'c':		       /* -c for changable file */
+	case 'c':		  /* -c for changable file */
 	case 'C':
 	  viewflag = FALSE;
 	  break;
-	case 'r':		       /* -r restrictive use */
+	case 'r':		  /* -r restrictive use */
 	case 'R':
 	  restflag = TRUE;
 	  break;
-	case 's':		       /* -s for initial search string */
+	case 's':		  /* -s for initial search string */
 	case 'S':
 	  searchflag = TRUE;
 	  bytecopy(pat, &argv[carg][2], NPAT);
 	  setjtable(pat);
 	  break;
-	case 'v':		       /* -v for View File */
+	case 'v':		  /* -v for View File */
 	case 'V':
 	  viewflag = TRUE;
 	  break;
-	default:		       /* unknown switch */
+	default:		  /* unknown switch */
 	  /* ignore this for now */
 	  break;
       }
@@ -268,15 +268,15 @@ char *argv[];
 editloop()
 
 {
-  register int c;		       /* command character */
-  register int f;		       /* default flag */
-  register int n;		       /* numeric repeat count */
-  register int mflag;		       /* negative flag on repeat */
-  register int basec;		       /* c stripped of meta character */
-  register int oldflag;		       /* old last flag value */
+  register int c;		  /* command character */
+  register int f;		  /* default flag */
+  register int n;		  /* numeric repeat count */
+  register int mflag;		  /* negative flag on repeat */
+  register int basec;		  /* c stripped of meta character */
+  register int oldflag;		  /* old last flag value */
 
   /* setup to process commands */
-  lastflag = 0;			       /* Fake last flags.	 */
+  lastflag = 0;			  /* Fake last flags.	 */
 
 loop:
   /* if we were called as a subroutine and want to leave, do so */
@@ -284,7 +284,7 @@ loop:
     return (eexitval);
 
   /* execute the "command" macro...normally null */
-  oldflag = lastflag;		       /* preserve lastflag through this */
+  oldflag = lastflag;		  /* preserve lastflag through this */
   execkey(&cmdhook, FALSE, 1);
   lastflag = oldflag;
 
@@ -319,14 +319,14 @@ loop:
 
   /* do META-# processing if needed */
 
-  basec = c & ~META;		       /* strip meta char off if there */
+  basec = c & ~META;		  /* strip meta char off if there */
   if ((c & META) && ((basec >= '0' && basec <= '9') || basec == '-') &&
       (getbind(c) == (KEYTAB *) NULL))
   {
-    f = TRUE;			       /* there is a # arg */
-    n = 0;			       /* start with a zero default */
-    mflag = 1;			       /* current minus flag */
-    c = basec;			       /* strip the META */
+    f = TRUE;			  /* there is a # arg */
+    n = 0;			  /* start with a zero default */
+    mflag = 1;			  /* current minus flag */
+    c = basec;			  /* strip the META */
     while ((c >= '0' && c <= '9') || (c == '-'))
     {
       if (c == '-')
@@ -340,23 +340,23 @@ loop:
       {
 	n = n * 10 + (c - '0');
       }
-      if ((n == 0) && (mflag == -1))   /* lonely - */
+      if ((n == 0) && (mflag == -1))	/* lonely - */
 	mlwrite("Arg:");
       else
 	mlwrite("Arg: %d", n * mflag);
 
-      c = getkey();		       /* get the next key */
+      c = getkey();		  /* get the next key */
     }
-    n = n * mflag;		       /* figure in the sign */
+    n = n * mflag;		  /* figure in the sign */
   }
 
   /* do ^U repeat argument processing */
 
   if (c == reptc)
-  {				       /* ^U, start argument   */
+  {				  /* ^U, start argument   */
     f = TRUE;
-    n = 4;			       /* with argument of 4 */
-    mflag = 0;			       /* that can be discarded. */
+    n = 4;			  /* with argument of 4 */
+    mflag = 0;			  /* that can be discarded. */
     mlwrite("Arg: 4");
     while ((c = getkey()) >= '0' && c <= '9' || c == reptc || c == '-')
     {
@@ -419,16 +419,16 @@ loop:
 
 edinit(bname)
 
-char bname[];			       /* name of buffer to initialize */
+char bname[];			  /* name of buffer to initialize */
 
 {
   register BUFFER *bp;
   register WINDOW *wp;
-  int cmark;			       /* current mark */
+  int cmark;			  /* current mark */
 
   /* initialize some important globals */
 
-  readhook.k_ptr.fp = nullproc;	       /* set internal hooks to OFF */
+  readhook.k_ptr.fp = nullproc;	  /* set internal hooks to OFF */
   readhook.k_type = BINDFNC;
   wraphook.k_type = BINDFNC;
   cmdhook.k_ptr.fp = nullproc;
@@ -440,17 +440,17 @@ char bname[];			       /* name of buffer to initialize */
   exbhook.k_ptr.fp = nullproc;
   exbhook.k_type = BINDFNC;
 
-  bp = bfind(bname, TRUE, 0);	       /* First buffer 	 */
+  bp = bfind(bname, TRUE, 0);	  /* First buffer 	 */
   blistp = bfind("[List]", TRUE, BFINVS);	/* Buffer list buffer	 */
   wp = (WINDOW *) malloc(sizeof(WINDOW));	/* First window 	 */
   if (bp == (BUFFER *) NULL || wp == (WINDOW *) NULL || blistp == (BUFFER *) NULL)
     meexit(1);
-  curbp = bp;			       /* Make this current	  */
+  curbp = bp;			  /* Make this current	  */
   wheadp = wp;
   curwp = wp;
-  wp->w_wndp = (WINDOW *) NULL;	       /* Initialize window    */
+  wp->w_wndp = (WINDOW *) NULL;	  /* Initialize window    */
   wp->w_bufp = bp;
-  bp->b_nwnd = 1;		       /* Displayed.	       */
+  bp->b_nwnd = 1;		  /* Displayed.	       */
   wp->w_linep = bp->b_linep;
   wp->w_dotp = bp->b_linep;
   wp->w_doto = 0;
@@ -461,9 +461,9 @@ char bname[];			       /* name of buffer to initialize */
   }
   wp->w_toprow = 0;
   wp->w_fcol = 0;
-  wp->w_ntrows = term.t_nrow - 1;      /* "-1" for mode line.  */
+  wp->w_ntrows = term.t_nrow - 1; /* "-1" for mode line.  */
   wp->w_force = 0;
-  wp->w_flag = WFMODE | WFHARD;	       /* Full. 	       */
+  wp->w_flag = WFMODE | WFHARD;	  /* Full. 	       */
 }
 
 /*
@@ -476,7 +476,7 @@ execute(c, f, n)
 
 {
   register int status;
-  KEYTAB *key;			       /* key entry to execute */
+  KEYTAB *key;			  /* key entry to execute */
 
   /* if the keystroke is a bound function...do it */
   key = getbind(c);
@@ -494,13 +494,13 @@ execute(c, f, n)
    * are not read-only, perform word wrap.
    */
   if ((c >= 0x20 && c <= 0xFF))
-  {				       /* Self inserting.      */
+  {				  /* Self inserting.      */
     if (n <= 0)
-    {				       /* Fenceposts.	       */
+    {				  /* Fenceposts.	       */
       lastflag = 0;
       return (n < 0 ? FALSE : TRUE);
     }
-    thisflag = 0;		       /* For the future.      */
+    thisflag = 0;		  /* For the future.      */
 
     /*
      * if we are in overwrite mode, not at eol, and next char is not a tab or
@@ -529,9 +529,9 @@ execute(c, f, n)
     return (status);
   }
   TTbeep();
-  mlwrite(TEXT19);		       /* complain	       */
+  mlwrite(TEXT19);		  /* complain	       */
   /* "[Key not bound]" */
-  lastflag = 0;			       /* Fake last flags.	 */
+  lastflag = 0;			  /* Fake last flags.	 */
   return (FALSE);
 }
 
@@ -543,31 +543,31 @@ execute(c, f, n)
 quickexit(f, n)
 
 {
-  register BUFFER *bp;		       /* scanning pointer to buffers */
-  register BUFFER *oldcb;	       /* original current buffer */
+  register BUFFER *bp;		  /* scanning pointer to buffers */
+  register BUFFER *oldcb;	  /* original current buffer */
   register int status;
 
-  oldcb = curbp;		       /* save in case we fail */
+  oldcb = curbp;		  /* save in case we fail */
 
   bp = bheadp;
   while (bp != (BUFFER *) NULL)
   {
-    if ((bp->b_flag & BFCHG) != 0      /* Changed.	      */
+    if ((bp->b_flag & BFCHG) != 0 /* Changed.	      */
 	&& (bp->b_flag & BFINVS) == 0)
-    {				       /* Real.		 */
-      curbp = bp;		       /* make that buffer cur */
+    {				  /* Real.		 */
+      curbp = bp;		  /* make that buffer cur */
       mlwrite(TEXT103, bp->b_fname);
       /* "[Saving %s]" */
       mlwrite("\n");
       if ((status = filesave(f, n)) != TRUE)
       {
-	curbp = oldcb;		       /* restore curbp */
+	curbp = oldcb;		  /* restore curbp */
 	return (status);
       }
     }
-    bp = bp->b_bufp;		       /* on to the next buffer */
+    bp = bp->b_bufp;		  /* on to the next buffer */
   }
-  quit(f, n);			       /* conditionally quit   */
+  quit(f, n);			  /* conditionally quit   */
   return (TRUE);
 }
 
@@ -579,11 +579,10 @@ quickexit(f, n)
 quit(f, n)
 
 {
-  register int status;		       /* return status */
+  register int status;		  /* return status */
 
-  if (f != FALSE		       /* Argument forces it.	 */
-      || anycb() == FALSE	       /* All buffers clean or user says it's
-				        * OK. */
+  if (f != FALSE		  /* Argument forces it.	 */
+      || anycb() == FALSE	  /* All buffers clean or user says it's OK. */
       || (status = mlyesno(TEXT104)) == TRUE)
   {
     /* "Modified buffers exist. Leave anyway" */
@@ -597,9 +596,9 @@ quit(f, n)
 }
 
 meexit(status)
-int status;			       /* return status of emacs */
+int status;			  /* return status of emacs */
 {
-  eexitflag = TRUE;		       /* flag a program exit */
+  eexitflag = TRUE;		  /* flag a program exit */
   eexitval = status;
 
   /* and now.. we leave and let the main loop kill us */
@@ -667,9 +666,9 @@ ctlxe(f, n)
   }
   if (n <= 0)
     return (TRUE);
-  kbdrep = n;			       /* remember how many times to execute */
-  kbdmode = PLAY;		       /* start us in play mode */
-  kbdptr = &kbdm[0];		       /* at the beginning */
+  kbdrep = n;			  /* remember how many times to execute */
+  kbdmode = PLAY;		  /* start us in play mode */
+  kbdptr = &kbdm[0];		  /* at the beginning */
   return (TRUE);
 }
 
@@ -711,15 +710,15 @@ resterr()
   return (FALSE);
 }
 
-nullproc(f, n)			       /* user function that does NOTHING */
+nullproc(f, n)			  /* user function that does NOTHING */
 
-int n, f;			       /* yes, these are default and never
-				        * used.. but MUST be here */
+int n, f;			  /* yes, these are default and never used..
+				   * but MUST be here */
 
 {
 }
 
-meta(f, n)			       /* set META prefixing pending */
+meta(f, n)			  /* set META prefixing pending */
 
 {
   prefix |= META;
@@ -728,7 +727,7 @@ meta(f, n)			       /* set META prefixing pending */
   return (TRUE);
 }
 
-cex(f, n)			       /* set ^X prefixing pending */
+cex(f, n)			  /* set ^X prefixing pending */
 
 {
   prefix |= CTLX;
@@ -744,12 +743,12 @@ cex(f, n)			       /* set ^X prefixing pending */
 
 char *bytecopy(dst, src, maxlen)
 
-char *dst;			       /* destination of copied string */
-char *src;			       /* source */
-int maxlen;			       /* maximum length */
+char *dst;			  /* destination of copied string */
+char *src;			  /* source */
+int maxlen;			  /* maximum length */
 
 {
-  char *dptr;			       /* ptr into dst */
+  char *dptr;			  /* ptr into dst */
 
   dptr = dst;
   while (*src && (maxlen-- > 0))

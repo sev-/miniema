@@ -1,13 +1,13 @@
 /*
- * $Id: unix.c,v 1.3 1994/08/15 20:42:11 sev Exp $
+ * $Id: unix.c,v 1.4 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: unix.c,v $
- * Revision 1.3  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.2  1994/06/24  17:22:21  sev Patched ^Q ^S bug
- * and added ttputs function
+ * Revision 1.4  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
+ * 1.2  1994/06/24  17:22:21  sev Patched ^Q ^S bug and added ttputs function
  * 
  * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
@@ -32,12 +32,12 @@
 #include	<fcntl.h>
 #include	<sys/ndir.h>
 #include	<sys/stat.h>
-int kbdflgs;			       /* saved keyboard fd flags	  */
-int kbdpoll;			       /* in O_NDELAY mode		     */
-int kbdqp;			       /* there is a char in kbdq	 */
-char kbdq;			       /* char we've already read	 */
-struct termio otermio;		       /* original terminal characteristics */
-struct termio ntermio;		       /* charactoristics to use inside */
+int kbdflgs;			  /* saved keyboard fd flags	  */
+int kbdpoll;			  /* in O_NDELAY mode		     */
+int kbdqp;			  /* there is a char in kbdq	 */
+char kbdq;			  /* char we've already read	 */
+struct termio otermio;		  /* original terminal characteristics */
+struct termio ntermio;		  /* charactoristics to use inside */
 
 #include	<signal.h>
 extern int vttidy();
@@ -50,7 +50,7 @@ extern int vttidy();
 ttopen()
 
 {
-  ioctl(0, TCGETA, &otermio);	       /* save old settings */
+  ioctl(0, TCGETA, &otermio);	  /* save old settings */
   ntermio.c_iflag = otermio.c_iflag & ~(INLCR | ICRNL | IGNCR);
   ntermio.c_oflag = otermio.c_oflag;
   ntermio.c_cflag = otermio.c_cflag;
@@ -58,7 +58,7 @@ ttopen()
   ntermio.c_line = otermio.c_line;
   ntermio.c_cc[VMIN] = 1;
   ntermio.c_cc[VTIME] = 0;
-  ioctl(0, TCSETAW, &ntermio);	       /* and activate them */
+  ioctl(0, TCSETAW, &ntermio);	  /* and activate them */
   kbdflgs = fcntl(0, F_GETFL, 0);
   kbdpoll = FALSE;
 
@@ -75,7 +75,7 @@ ttopen()
 ttclose()
 
 {
-  ioctl(0, TCSETA, &otermio);	       /* restore terminal settings */
+  ioctl(0, TCSETA, &otermio);	  /* restore terminal settings */
   fcntl(0, F_SETFL, kbdflgs);
 }
 
@@ -130,8 +130,8 @@ ttgetc()
      */
     if (fcntl(0, F_SETFL, kbdflgs) < 0 && kbdpoll)
       return (FALSE);
-    kbdpoll = FALSE;		       /* no polling */
-    read(0, &kbdq, 1);		       /* wait until we get a character */
+    kbdpoll = FALSE;		  /* no polling */
+    read(0, &kbdq, 1);		  /* wait until we get a character */
   }
   return (kbdq & 255);
 }
@@ -175,9 +175,9 @@ spawncli(f, n)
   if (restflag)
     return (resterr());
 
-  movecursor(term.t_nrow, 0);	       /* Seek to last line.	 */
+  movecursor(term.t_nrow, 0);	  /* Seek to last line.	 */
   TTflush();
-  TTclose();			       /* stty to old settings */
+  TTclose();			  /* stty to old settings */
   if ((cp = getenv("SHELL")) != (char *) NULL && *cp != '\0')
     system(cp);
   else
@@ -188,10 +188,10 @@ spawncli(f, n)
   return (TRUE);
 }
 
-rename1(old, new)		       /* change the name of a file */
+rename1(old, new)		  /* change the name of a file */
 
-char *old;			       /* original file name */
-char *new;			       /* new file name */
+char *old;			  /* original file name */
+char *new;			  /* new file name */
 
 {
   link(old, new);

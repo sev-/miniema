@@ -1,13 +1,13 @@
 /*
- * $Id: tcap.c,v 1.3 1994/08/15 20:42:11 sev Exp $
+ * $Id: tcap.c,v 1.4 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: tcap.c,v $
- * Revision 1.3  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.2  1994/06/24  17:22:21  sev Patched ^Q ^S bug
- * and added ttputs function
+ * Revision 1.4  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
+ * 1.2  1994/06/24  17:22:21  sev Patched ^Q ^S bug and added ttputs function
  * 
  * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
@@ -37,7 +37,7 @@
  * 
  */
 
-#define termdef 1		       /* don't define "term" external */
+#define termdef 1		  /* don't define "term" external */
 
 #include <stdio.h>
 #include	"estruct.h"
@@ -51,48 +51,48 @@
 
 #define MARGIN	8
 #define SCRSIZ	64
-#define NPAUSE	10		       /* # times thru update to pause */
+#define NPAUSE	10		  /* # times thru update to pause */
 #define BEL	0x07
 
 /* Termcap Sequence definitions	 */
 
 typedef struct TBIND
 {
-  char p_name[4];		       /* sequence name */
-  short p_code;			       /* resulting keycode of sequence */
-  char p_seq[10];		       /* terminal escape sequence */
+  char p_name[4];		  /* sequence name */
+  short p_code;			  /* resulting keycode of sequence */
+  char p_seq[10];		  /* terminal escape sequence */
 } TBIND;
 
 TBIND ttable[] =
 {
-  "bt", SHFT | CTRL | 'i', "",	       /* backtab */
-  "k1", SPEC | '1', "",		       /* function key 1 */
-  "k2", SPEC | '2', "",		       /* function key 2 */
-  "k3", SPEC | '3', "",		       /* function key 3 */
-  "k4", SPEC | '4', "",		       /* function key 4 */
-  "k5", SPEC | '5', "",		       /* function key 5 */
-  "k6", SPEC | '6', "",		       /* function key 6 */
-  "k7", SPEC | '7', "",		       /* function key 7 */
-  "k8", SPEC | '8', "",		       /* function key 8 */
-  "k9", SPEC | '9', "",		       /* function key 9 */
-  "k0", SPEC | '0', "",		       /* function key 10 */
-  "kA", CTRL | 'O', "",		       /* insert line */
-  "kb", CTRL | 'H', "",		       /* backspace */
-  "kC", CTRL | 'L', "",		       /* clear screen */
-  "kD", SPEC | 'D', "",		       /* delete character */
-  "kd", SPEC | 'N', "",		       /* down cursor */
-  "kE", CTRL | 'K', "",		       /* clear to end of line */
-  "kF", CTRL | 'V', "",		       /* scroll down */
-  "kH", SPEC | '>', "",		       /* home down [END?] key */
-  "kh", SPEC | '<', "",		       /* home */
-  "kI", SPEC | 'C', "",		       /* insert character */
-  "kL", CTRL | 'K', "",		       /* delete line */
-  "kl", SPEC | 'B', "",		       /* left cursor */
-  "kN", SPEC | 'V', "",		       /* next page */
-  "kP", SPEC | 'Z', "",		       /* previous page */
-  "kR", CTRL | 'Z', "",		       /* scroll down */
-  "kr", SPEC | 'F', "",		       /* right cursor */
-  "ku", SPEC | 'P', "",		       /* up cursor */
+  "bt", SHFT | CTRL | 'i', "",	  /* backtab */
+  "k1", SPEC | '1', "",		  /* function key 1 */
+  "k2", SPEC | '2', "",		  /* function key 2 */
+  "k3", SPEC | '3', "",		  /* function key 3 */
+  "k4", SPEC | '4', "",		  /* function key 4 */
+  "k5", SPEC | '5', "",		  /* function key 5 */
+  "k6", SPEC | '6', "",		  /* function key 6 */
+  "k7", SPEC | '7', "",		  /* function key 7 */
+  "k8", SPEC | '8', "",		  /* function key 8 */
+  "k9", SPEC | '9', "",		  /* function key 9 */
+  "k0", SPEC | '0', "",		  /* function key 10 */
+  "kA", CTRL | 'O', "",		  /* insert line */
+  "kb", CTRL | 'H', "",		  /* backspace */
+  "kC", CTRL | 'L', "",		  /* clear screen */
+  "kD", SPEC | 'D', "",		  /* delete character */
+  "kd", SPEC | 'N', "",		  /* down cursor */
+  "kE", CTRL | 'K', "",		  /* clear to end of line */
+  "kF", CTRL | 'V', "",		  /* scroll down */
+  "kH", SPEC | '>', "",		  /* home down [END?] key */
+  "kh", SPEC | '<', "",		  /* home */
+  "kI", SPEC | 'C', "",		  /* insert character */
+  "kL", CTRL | 'K', "",		  /* delete line */
+  "kl", SPEC | 'B', "",		  /* left cursor */
+  "kN", SPEC | 'V', "",		  /* next page */
+  "kP", SPEC | 'Z', "",		  /* previous page */
+  "kR", CTRL | 'Z', "",		  /* scroll down */
+  "kr", SPEC | 'F', "",		  /* right cursor */
+  "ku", SPEC | 'P', "",		  /* up cursor */
 };
 
 #define NTBINDS sizeof(ttable)/sizeof(TBIND)
@@ -124,8 +124,8 @@ char *UP, PC, *CM, *CE, *CL, *SO, *SE, *IS, *KS, *KE;
 
 TERM term =
 {
-  0, 0, 0, 0,			       /* these four values are set
-				        * dynamically at open time */
+  0, 0, 0, 0,			  /* these four values are set dynamically at
+				   * open time */
   MARGIN,
   SCRSIZ,
   NPAUSE,
@@ -147,21 +147,19 @@ TERM term =
 
 /* input buffers and pointers	 */
 
-#define IBUFSIZE	64	       /* this must be a power of 2 */
+#define IBUFSIZE	64	  /* this must be a power of 2 */
 
-unsigned char in_buf[IBUFSIZE];	       /* input character buffer */
-int in_next = 0;		       /* pos to retrieve next input
-				        * character */
-int in_last = 0;		       /* pos to place most recent input
-				        * character */
+unsigned char in_buf[IBUFSIZE];	  /* input character buffer */
+int in_next = 0;		  /* pos to retrieve next input character */
+int in_last = 0;		  /* pos to place most recent input character */
 
-in_init()			       /* initialize the input buffer */
+in_init()			  /* initialize the input buffer */
 
 {
   in_next = in_last = 0;
 }
 
-in_check()			       /* is the input buffer non-empty? */
+in_check()			  /* is the input buffer non-empty? */
 
 {
   if (in_next == in_last)
@@ -172,18 +170,17 @@ in_check()			       /* is the input buffer non-empty? */
 
 in_put(event)
 
-int event;			       /* event to enter into the input
-				        * buffer */
+int event;			  /* event to enter into the input buffer */
 
 {
   in_buf[in_last++] = event;
   in_last &= (IBUFSIZE - 1);
 }
 
-int in_get()			       /* get an event from the input buffer */
+int in_get()			  /* get an event from the input buffer */
 
 {
-  register int event;		       /* event to return */
+  register int event;		  /* event to return */
 
   event = in_buf[in_next++];
   in_next &= (IBUFSIZE - 1);
@@ -198,7 +195,7 @@ int in_get()			       /* get an event from the input buffer */
 tcapopen()
 
 {
-  register int index;		       /* general index */
+  register int index;		  /* general index */
   char *t, *p;
   char tcbuf[1024];
   char *tv_stype;
@@ -259,13 +256,12 @@ tcapopen()
     meexit(1);
   }
 
-  if (CE == (char *) NULL)	       /* will we be able to use clear to
-				        * EOL? */
+  if (CE == (char *) NULL)	  /* will we be able to use clear to EOL? */
     eolexist = FALSE;
 
-  IS = tgetstr("is", &p);	       /* extract init string */
-  KS = tgetstr("ks", &p);	       /* extract keypad transmit string */
-  KE = tgetstr("ke", &p);	       /* extract keypad transmit end string */
+  IS = tgetstr("is", &p);	  /* extract init string */
+  KS = tgetstr("ks", &p);	  /* extract keypad transmit string */
+  KE = tgetstr("ke", &p);	  /* extract keypad transmit end string */
 
   /* read definitions of various function keys into ttable */
   for (index = 0; index < NTBINDS; index++)
@@ -323,7 +319,7 @@ tcapkclose()
 int tcapgetc()
 
 {
-  int c;			       /* current extended keystroke */
+  int c;			  /* current extended keystroke */
 
   /* if there are already keys waiting.... send them */
   if (in_check())
@@ -339,9 +335,9 @@ int tcapgetc()
   /* fold the event type into the input stream as an escape seq */
   if ((c & ~255) != 0)
   {
-    in_put(0);			       /* keyboard escape prefix */
-    in_put(c >> 8);		       /* event type */
-    in_put(c & 255);		       /* event code */
+    in_put(0);			  /* keyboard escape prefix */
+    in_put(c >> 8);		  /* event type */
+    in_put(c & 255);		  /* event code */
     return (tcapgetc());
   }
 
@@ -370,11 +366,11 @@ int get1key()
 
 {
   register int c;
-  register int index;		       /* index into termcap binding table */
+  register int index;		  /* index into termcap binding table */
   char *sp;
   int fdset;
   struct timeval timeout;
-  char cseq[10];		       /* current sequence being parsed */
+  char cseq[10];		  /* current sequence being parsed */
 
   c = ttgetc();
 
@@ -427,10 +423,10 @@ tcapeeop()
   tcapmove(0, 0);
 }
 
-tcaprev(state)			       /* change reverse video status */
+tcaprev(state)			  /* change reverse video status */
 
-int state;			       /* FALSE = normal video, TRUE =
-				        * reverse video */
+int state;			  /* FALSE = normal video, TRUE = reverse
+				   * video */
 
 {
   /* static int revstate = FALSE; */
@@ -444,7 +440,7 @@ int state;			       /* FALSE = normal video, TRUE =
     putpad(SE);
 }
 
-tcapcres()			       /* change screen resolution */
+tcapcres()			  /* change screen resolution */
 
 {
   return (TRUE);

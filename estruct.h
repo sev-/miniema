@@ -1,13 +1,13 @@
 /*
- * $Id: estruct.h,v 1.3 1994/08/15 20:42:11 sev Exp $
+ * $Id: estruct.h,v 1.4 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: estruct.h,v $
- * Revision 1.3  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.2  1994/06/24  17:22:21  sev Added ttputs into
- * tcap structure
+ * Revision 1.4  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.3  1994/08/15  20:42:11  sev Indented Revision
+ * 1.2  1994/06/24  17:22:21  sev Added ttputs into tcap structure
  * 
  * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
@@ -36,11 +36,10 @@
 
 /* Configuration options	 */
 
-#define TYPEAH	1		       /* type ahead causes update to be
-				        * skipped	 */
-#define	CLEAN	0		       /* de-alloc memory on exit			 */
-#define	CALLED	0		       /* is emacs a called subroutine? or
-				        * stand alone */
+#define TYPEAH	1		  /* type ahead causes update to be skipped	 */
+#define	CLEAN	0		  /* de-alloc memory on exit			 */
+#define	CALLED	0		  /* is emacs a called subroutine? or stand
+				   * alone */
 
 /* handle constant and voids properly */
 
@@ -61,28 +60,28 @@
 
 /* internal constants	 */
 
-#define NBINDS	300		       /* max # of bound keys		 */
+#define NBINDS	300		  /* max # of bound keys		 */
 #define	NFILEN	256
-#define NBUFN	32		       /* # of bytes, buffer name	  */
-#define NLINE	256		       /* # of bytes, input line	 */
-#define	NSTRING	128		       /* # of bytes, string buffers	 */
-#define NKBDM	256		       /* # of strokes, keyboard macro */
-#define NPAT	128		       /* # of bytes, pattern		 */
-#define HUGE	1000		       /* Huge number			 */
-#define	KBLOCK	250		       /* sizeof kill buffer chunks	 */
-#define	NBLOCK	16		       /* line block chunk size	 */
-#define NMARKS	10		       /* number of marks		 */
+#define NBUFN	32		  /* # of bytes, buffer name	  */
+#define NLINE	256		  /* # of bytes, input line	 */
+#define	NSTRING	128		  /* # of bytes, string buffers	 */
+#define NKBDM	256		  /* # of strokes, keyboard macro */
+#define NPAT	128		  /* # of bytes, pattern		 */
+#define HUGE	1000		  /* Huge number			 */
+#define	KBLOCK	250		  /* sizeof kill buffer chunks	 */
+#define	NBLOCK	16		  /* line block chunk size	 */
+#define NMARKS	10		  /* number of marks		 */
 
-#define CTRL	0x0100		       /* Control flag, or'ed in		 */
-#define META	0x0200		       /* Meta flag, or'ed in			 */
-#define CTLX	0x0400		       /* ^X flag, or'ed in			 */
-#define SPEC	0x0800		       /* special key (function keys)		 */
-#define MOUS	0x1000		       /* alternative input device (mouse)	 */
-#define	SHFT	0x2000		       /* shifted (for function keys)		 */
-#define	ALTD	0x4000		       /* ALT key...				 */
+#define CTRL	0x0100		  /* Control flag, or'ed in		 */
+#define META	0x0200		  /* Meta flag, or'ed in			 */
+#define CTLX	0x0400		  /* ^X flag, or'ed in			 */
+#define SPEC	0x0800		  /* special key (function keys)		 */
+#define MOUS	0x1000		  /* alternative input device (mouse)	 */
+#define	SHFT	0x2000		  /* shifted (for function keys)		 */
+#define	ALTD	0x4000		  /* ALT key...				 */
 
-#define BINDNUL 0		       /* not bount to anything		 */
-#define	BINDFNC	1		       /* key bound to a function		 */
+#define BINDNUL 0		  /* not bount to anything		 */
+#define	BINDFNC	1		  /* key bound to a function		 */
 
 #ifdef	FALSE
 #undef	FALSE
@@ -91,36 +90,35 @@
 #undef	TRUE
 #endif
 
-#define FALSE	0		       /* False, no, bad, etc. 	 */
-#define TRUE	1		       /* True, yes, good, etc.	 */
-#define ABORT	2		       /* Death, ^G, abort, etc.	 */
+#define FALSE	0		  /* False, no, bad, etc. 	 */
+#define TRUE	1		  /* True, yes, good, etc.	 */
+#define ABORT	2		  /* Death, ^G, abort, etc.	 */
 
-#define STOP	0		       /* keyboard macro not in use	 */
-#define	PLAY	1		       /* playing	 */
-#define	RECORD	2		       /* recording	 */
+#define STOP	0		  /* keyboard macro not in use	 */
+#define	PLAY	1		  /* playing	 */
+#define	RECORD	2		  /* recording	 */
 
 /*
  * PTBEG, PTEND, FORWARD, and REVERSE are all toggle-able values for the scan
  * routines.
  */
-#define PTBEG	0		       /* Leave the point at the beginning on
-				        * search	 */
-#define	PTEND	1		       /* Leave the point at the end on
-				        * search		 */
-#define	FORWARD	0		       /* forward direction		 */
-#define REVERSE	1		       /* backwards direction		 */
+#define PTBEG	0		  /* Leave the point at the beginning on
+				   * search	 */
+#define	PTEND	1		  /* Leave the point at the end on search		 */
+#define	FORWARD	0		  /* forward direction		 */
+#define REVERSE	1		  /* backwards direction		 */
 
-#define FIOSUC	0		       /* File I/O, success.		 */
-#define FIOFNF	1		       /* File I/O, file not found.	 */
-#define FIOEOF	2		       /* File I/O, end of file.	 */
-#define FIOERR	3		       /* File I/O, error.		 */
-#define	FIOMEM	4		       /* File I/O, out of memory	 */
-#define	FIODEL	6		       /* Can't delete/rename file	 */
+#define FIOSUC	0		  /* File I/O, success.		 */
+#define FIOFNF	1		  /* File I/O, file not found.	 */
+#define FIOEOF	2		  /* File I/O, end of file.	 */
+#define FIOERR	3		  /* File I/O, error.		 */
+#define	FIOMEM	4		  /* File I/O, out of memory	 */
+#define	FIODEL	6		  /* Can't delete/rename file	 */
 
-#define CFCPCN	0x0001		       /* Last command was C-P, C-N	 */
-#define CFKILL	0x0002		       /* Last command was a kill	 */
+#define CFCPCN	0x0001		  /* Last command was C-P, C-N	 */
+#define CFKILL	0x0002		  /* Last command was a kill	 */
 
-#define BELL	0x07		       /* a bell character		 */
+#define BELL	0x07		  /* a bell character		 */
 
 #define INTWIDTH	sizeof(int) * 3
 
@@ -139,7 +137,7 @@
 #endif
 
 #define DIFCASE 	0x20
-#define	CHCASE(c)	chcase(c)      /* Toggle extended letter case. */
+#define	CHCASE(c)	chcase(c) /* Toggle extended letter case. */
 
 /*
  * There is a window structure allocated for every active display window. The
@@ -152,25 +150,25 @@
  */
 typedef struct WINDOW
 {
-  struct WINDOW *w_wndp;	       /* Next window			 */
-  struct BUFFER *w_bufp;	       /* Buffer displayed in window	 */
-  struct LINE *w_linep;		       /* Top line in the window	 */
-  struct LINE *w_dotp;		       /* Line containing "."		 */
-  short w_doto;			       /* Byte offset for "."		 */
-  struct LINE *w_markp[NMARKS];	       /* Line containing "mark"	 */
-  short w_marko[NMARKS];	       /* Byte offset for "mark"	 */
-  char w_toprow;		       /* Origin 0 top row of window	 */
-  char w_ntrows;		       /* # of rows of text in window	 */
-  char w_force;			       /* If NZ, forcing row.		 */
-  char w_flag;			       /* Flags.			 */
-  int w_fcol;			       /* first column displayed	 */
+  struct WINDOW *w_wndp;	  /* Next window			 */
+  struct BUFFER *w_bufp;	  /* Buffer displayed in window	 */
+  struct LINE *w_linep;		  /* Top line in the window	 */
+  struct LINE *w_dotp;		  /* Line containing "."		 */
+  short w_doto;			  /* Byte offset for "."		 */
+  struct LINE *w_markp[NMARKS];	  /* Line containing "mark"	 */
+  short w_marko[NMARKS];	  /* Byte offset for "mark"	 */
+  char w_toprow;		  /* Origin 0 top row of window	 */
+  char w_ntrows;		  /* # of rows of text in window	 */
+  char w_force;			  /* If NZ, forcing row.		 */
+  char w_flag;			  /* Flags.			 */
+  int w_fcol;			  /* first column displayed	 */
 } WINDOW;
 
-#define WFFORCE 0x01		       /* Window needs forced reframe	 */
-#define WFMOVE	0x02		       /* Movement from line to line	 */
-#define WFEDIT	0x04		       /* Editing within a line	 */
-#define WFHARD	0x08		       /* Better to a full display	 */
-#define WFMODE	0x10		       /* Update mode line.		 */
+#define WFFORCE 0x01		  /* Window needs forced reframe	 */
+#define WFMOVE	0x02		  /* Movement from line to line	 */
+#define WFEDIT	0x04		  /* Editing within a line	 */
+#define WFHARD	0x08		  /* Better to a full display	 */
+#define WFMODE	0x10		  /* Update mode line.		 */
 
 /*
  * Text is kept in buffers. A buffer header, described below, exists for
@@ -185,36 +183,36 @@ typedef struct WINDOW
  */
 typedef struct BUFFER
 {
-  struct BUFFER *b_bufp;	       /* Link to next BUFFER		 */
-  struct LINE *b_dotp;		       /* Link to "." LINE structure	 */
-  short b_doto;			       /* Offset of "." in above LINE	 */
-  struct LINE *b_markp[NMARKS];	       /* The same as the above two,	 */
-  short b_marko[NMARKS];	       /* but for the "mark"		 */
-  int b_fcol;			       /* first col to display		 */
-  struct LINE *b_linep;		       /* Link to the header LINE	 */
-  struct LINE *b_topline;	       /* Link to narrowed top text	 */
-  struct LINE *b_botline;	       /* Link to narrowed bottom text	 */
-  char b_active;		       /* window activated flag	 */
-  char b_nwnd;			       /* Count of windows on buffer	 */
-  char b_flag;			       /* Flags			 */
-  int b_mode;			       /* editor mode of this buffer	 */
-  char b_fname[NFILEN];		       /* File name			 */
-  char b_bname[NBUFN];		       /* Buffer name			 */
+  struct BUFFER *b_bufp;	  /* Link to next BUFFER		 */
+  struct LINE *b_dotp;		  /* Link to "." LINE structure	 */
+  short b_doto;			  /* Offset of "." in above LINE	 */
+  struct LINE *b_markp[NMARKS];	  /* The same as the above two,	 */
+  short b_marko[NMARKS];	  /* but for the "mark"		 */
+  int b_fcol;			  /* first col to display		 */
+  struct LINE *b_linep;		  /* Link to the header LINE	 */
+  struct LINE *b_topline;	  /* Link to narrowed top text	 */
+  struct LINE *b_botline;	  /* Link to narrowed bottom text	 */
+  char b_active;		  /* window activated flag	 */
+  char b_nwnd;			  /* Count of windows on buffer	 */
+  char b_flag;			  /* Flags			 */
+  int b_mode;			  /* editor mode of this buffer	 */
+  char b_fname[NFILEN];		  /* File name			 */
+  char b_bname[NBUFN];		  /* Buffer name			 */
 } BUFFER;
 
-#define BFINVS	0x01		       /* Internal invisable buffer	 */
-#define BFCHG	0x02		       /* Changed since last write	 */
-#define	BFTRUNC	0x04		       /* buffer was truncated when read */
-#define	BFNAROW	0x08		       /* buffer has been narrowed	 */
+#define BFINVS	0x01		  /* Internal invisable buffer	 */
+#define BFCHG	0x02		  /* Changed since last write	 */
+#define	BFTRUNC	0x04		  /* buffer was truncated when read */
+#define	BFNAROW	0x08		  /* buffer has been narrowed	 */
 
 /* mode flags	 */
-#define	NUMMODES	9	       /* # of defined modes	      */
+#define	NUMMODES	9	  /* # of defined modes	      */
 
-#define MDCMOD	0x0002		       /* C indentation and fence match */
-#define	MDEXACT	0x0008		       /* Exact matching for searches	 */
-#define	MDVIEW	0x0010		       /* read-only buffer		 */
-#define MDOVER	0x0020		       /* overwrite mode		 */
-#define	MDASAVE	0x0100		       /* auto-save mode		 */
+#define MDCMOD	0x0002		  /* C indentation and fence match */
+#define	MDEXACT	0x0008		  /* Exact matching for searches	 */
+#define	MDVIEW	0x0010		  /* read-only buffer		 */
+#define MDOVER	0x0020		  /* overwrite mode		 */
+#define	MDASAVE	0x0100		  /* auto-save mode		 */
 
 /*
  * The starting position of a region, and the size of the region in
@@ -222,9 +220,9 @@ typedef struct BUFFER
  */
 typedef struct
 {
-  struct LINE *r_linep;		       /* Origin LINE address. 	 */
-  short r_offset;		       /* Origin LINE offset.		 */
-  long r_size;			       /* Length in characters.	 */
+  struct LINE *r_linep;		  /* Origin LINE address. 	 */
+  short r_offset;		  /* Origin LINE offset.		 */
+  long r_size;			  /* Length in characters.	 */
 } REGION;
 
 /*
@@ -236,11 +234,11 @@ typedef struct
  */
 typedef struct LINE
 {
-  struct LINE *l_fp;		       /* Link to the next line	 */
-  struct LINE *l_bp;		       /* Link to the previous line	 */
-  short l_size;			       /* Allocated size		 */
-  short l_used;			       /* Used size			 */
-  char l_text[1];		       /* A bunch of characters.	 */
+  struct LINE *l_fp;		  /* Link to the next line	 */
+  struct LINE *l_bp;		  /* Link to the previous line	 */
+  short l_size;			  /* Allocated size		 */
+  short l_used;			  /* Used size			 */
+  char l_text[1];		  /* A bunch of characters.	 */
 } LINE;
 
 #define lforw(lp)	((lp)->l_fp)
@@ -260,27 +258,27 @@ typedef struct LINE
  */
 typedef struct
 {
-  short t_mrow;			       /* max number of rows allowable */
-  short t_nrow;			       /* current number of rows used */
-  short t_mcol;			       /* max Number of columns.	 */
-  short t_ncol;			       /* current Number of columns.	 */
-  short t_margin;		       /* min margin for extended lines */
-  short t_scrsiz;		       /* size of scroll region "	 */
-  int t_pause;			       /* # times thru update to pause */
-  int (*t_open) ();		       /* Open terminal at the start.	 */
-  int (*t_close) ();		       /* Close terminal at end.	 */
-  int (*t_kopen) ();		       /* Open keyboard		 */
-  int (*t_kclose) ();		       /* close keyboard		 */
-  int (*t_getchar) ();		       /* Get character from keyboard. */
-  int (*t_putchar) ();		       /* Put character to display.	 */
-  int (*t_flush) ();		       /* Flush output buffers.	 */
-  int (*t_move) ();		       /* Move the cursor, origin 0.	 */
-  int (*t_eeol) ();		       /* Erase to end of line.	 */
-  int (*t_eeop) ();		       /* Erase to end of page.	 */
-  int (*t_beep) ();		       /* Beep.			 */
-  int (*t_rev) ();		       /* set reverse video state	 */
-  int (*t_rez) ();		       /* change screen resolution	 */
-  int (*t_puts) ();		       /* put string			 */
+  short t_mrow;			  /* max number of rows allowable */
+  short t_nrow;			  /* current number of rows used */
+  short t_mcol;			  /* max Number of columns.	 */
+  short t_ncol;			  /* current Number of columns.	 */
+  short t_margin;		  /* min margin for extended lines */
+  short t_scrsiz;		  /* size of scroll region "	 */
+  int t_pause;			  /* # times thru update to pause */
+  int (*t_open) ();		  /* Open terminal at the start.	 */
+  int (*t_close) ();		  /* Close terminal at end.	 */
+  int (*t_kopen) ();		  /* Open keyboard		 */
+  int (*t_kclose) ();		  /* close keyboard		 */
+  int (*t_getchar) ();		  /* Get character from keyboard. */
+  int (*t_putchar) ();		  /* Put character to display.	 */
+  int (*t_flush) ();		  /* Flush output buffers.	 */
+  int (*t_move) ();		  /* Move the cursor, origin 0.	 */
+  int (*t_eeol) ();		  /* Erase to end of line.	 */
+  int (*t_eeop) ();		  /* Erase to end of page.	 */
+  int (*t_beep) ();		  /* Beep.			 */
+  int (*t_rev) ();		  /* set reverse video state	 */
+  int (*t_rez) ();		  /* change screen resolution	 */
+  int (*t_puts) ();		  /* put string			 */
 } TERM;
 
 /*
@@ -305,24 +303,24 @@ typedef struct
 
 ETYPE EPOINTER
 {
-  int (*fp) ();			       /* C routine to invoke */
-  BUFFER *buf;			       /* buffer to execute */
+  int (*fp) ();			  /* C routine to invoke */
+  BUFFER *buf;			  /* buffer to execute */
 };
 
 typedef struct
 {
-  short k_code;			       /* Key code		       */
-  short k_type;			       /* binding type (C function or EMACS
-				        * buffer) */
-  ETYPE EPOINTER k_ptr;		       /* ptr to thing to execute */
+  short k_code;			  /* Key code		       */
+  short k_type;			  /* binding type (C function or EMACS
+				   * buffer) */
+  ETYPE EPOINTER k_ptr;		  /* ptr to thing to execute */
 } KEYTAB;
 
 /* structure for the name binding table		 */
 
 typedef struct
 {
-  char *n_name;			       /* name of function key */
-  int (*n_func) ();		       /* function name is bound to */
+  char *n_name;			  /* name of function key */
+  int (*n_func) ();		  /* function name is bound to */
 } NBIND;
 
 /*
@@ -335,8 +333,8 @@ typedef struct
 
 typedef struct KILL
 {
-  struct KILL *d_next;		       /* link to next chunk, NULL if last */
-  char d_chunk[KBLOCK];		       /* deleted text */
+  struct KILL *d_next;		  /* link to next chunk, NULL if last */
+  char d_chunk[KBLOCK];		  /* deleted text */
 } KILL;
 
 /*
@@ -347,8 +345,8 @@ typedef struct KILL
 
 typedef struct VDESC
 {
-  int v_type;			       /* type of variable */
-  int v_num;			       /* ordinal pointer to variable in list */
+  int v_type;			  /* type of variable */
+  int v_num;			  /* ordinal pointer to variable in list */
 } VDESC;
 
 /* HICHAR - 1 is the largest character we will deal with. */
@@ -359,11 +357,10 @@ typedef struct VDESC
  * on any of the machines with window managers.
  * 
  * 
- * ------------------------------------------ | |	 MicroEMACS v3.xx
- *  |		for the ............ |					 | |
- * Text Editor and Corrector |					 | |
- * written by Daniel M. Lawrence |    [based on code by Dave Conroy]	 | |
- * |    Send inquiries and donations to:	 | |    617 New York St |
- * Lafayette, IN 47901		 | |
- * ------------------------------------------
+ * ------------------------------------------ | |	 MicroEMACS v3.xx |
+ * or the ............ |					 | | Text
+ * Editor and Corrector |					 | | written
+ * by Daniel M. Lawrence |    [based on code by Dave Conroy]	 | | |
+ * Send inquiries and donations to:	 | |    617 New York St | Lafayette,
+ * IN 47901		 | | ------------------------------------------
  */

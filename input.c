@@ -1,12 +1,13 @@
 /*
- * $Id: input.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * $Id: input.c,v 1.3 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: input.c,v $
- * Revision 1.2  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * Revision 1.3  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.2  1994/08/15  20:42:11  sev Indented Revision
+ * 1.1  1994/06/24  14:17:12  sev Initial revision
  * 
  * 
  */
@@ -60,8 +61,8 @@ mlyesno(prompt)
 char *prompt;
 
 {
-  int c;			       /* input character */
-  char buf[NPAT];		       /* prompt to user */
+  int c;			  /* input character */
+  char buf[NPAT];		  /* prompt to user */
 
   for (;;)
   {
@@ -72,16 +73,16 @@ char *prompt;
     mlwrite(buf);
 
     /* get the response */
-    c = getcmd();		       /* getcmd() lets us check for anything
-				        * that might */
+    c = getcmd();		  /* getcmd() lets us check for anything that
+				   * might */
     /* generate a 'y' or 'Y' in case use screws up */
 
-    if (c == ectoc(abortc))	       /* Bail out! */
+    if (c == ectoc(abortc))	  /* Bail out! */
       return (ABORT);
 
     if ((c == 'n') || (c == 'N')
 	|| (c & (SPEC | ALTD | CTRL | META | CTLX | MOUS)))
-      return (FALSE);		       /* ONLY 'y' or 'Y' allowed!!! */
+      return (FALSE);		  /* ONLY 'y' or 'Y' allowed!!! */
 
     if (c == 'y' || c == 'Y')
       return (TRUE);
@@ -115,7 +116,7 @@ int c;
 int tgetc()
 
 {
-  int c;			       /* fetched character */
+  int c;			  /* fetched character */
 
   /* if we are playing a keyboard macro back, */
   if (kbdmode == PLAY)
@@ -173,8 +174,8 @@ int tgetc()
 getkey()
 
 {
-  int c;			       /* next input character */
-  int upper;			       /* upper byte of the extended sequence */
+  int c;			  /* next input character */
+  int upper;			  /* upper byte of the extended sequence */
 
   /* get a keystroke */
   c = tgetc();
@@ -217,8 +218,8 @@ getkey()
 getcmd()
 
 {
-  int c;			       /* fetched keystroke */
-  KEYTAB *key;			       /* ptr to a key entry */
+  int c;			  /* fetched keystroke */
+  KEYTAB *key;			  /* ptr to a key entry */
 
   /* get initial character */
   c = getkey();
@@ -230,13 +231,13 @@ getcmd()
     if (key->k_ptr.fp == meta)
     {
       c = getkey();
-      c = upperc(c) | (c & ~255);      /* Force to upper */
+      c = upperc(c) | (c & ~255); /* Force to upper */
       c |= META;
     }
     else if (key->k_ptr.fp == cex)
     {
       c = getkey();
-      c = upperc(c) | (c & ~255);      /* Force to upper */
+      c = upperc(c) | (c & ~255); /* Force to upper */
       c |= CTLX;
     }
   }
@@ -257,10 +258,9 @@ char *buf;
 int eolchar;
 
 {
-  register int cpos;		       /* current character position in
-				        * string */
-  register int c;		       /* current input character */
-  register int quotef;		       /* are we quoting the next char? */
+  register int cpos;		  /* current character position in string */
+  register int c;		  /* current input character */
+  register int quotef;		  /* are we quoting the next char? */
 
   cpos = 0;
   quotef = FALSE;
@@ -363,7 +363,7 @@ int eolchar;
 	if (c != '\r')
 	  mlout(c);
 	else
-	{			       /* put out <NL> for <ret> */
+	{			  /* put out <NL> for <ret> */
 	  outstring("<NL>");
 	  ttcol += 3;
 	}
@@ -374,9 +374,9 @@ int eolchar;
   }
 }
 
-outstring(s)			       /* output a string of input characters */
+outstring(s)			  /* output a string of input characters */
 
-char *s;			       /* string to output */
+char *s;			  /* string to output */
 
 {
   while (*s)

@@ -1,12 +1,13 @@
 /*
- * $Id: etype.h,v 1.4 1994/08/15 20:42:11 sev Exp $
+ * $Id: etype.h,v 1.5 1994/08/15 21:27:30 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: etype.h,v $
- * Revision 1.4  1994/08/15 20:42:11  sev
- * Indented
- * Revision 1.3  1994/06/27  11:18:43  sev Menu...
+ * Revision 1.5  1994/08/15 21:27:30  sev
+ * i'm sorry, but this indent IMHO more better ;-)
+ * Revision 1.4  1994/08/15  20:42:11  sev Indented Revision
+ * 1.3  1994/06/27  11:18:43  sev Menu...
  * 
  * Revision 1.2  1994/06/24  17:22:21  sev Added mainmenu and ttputs proto
  * 
@@ -179,5 +180,5 @@ char *malloc();
 
 /* menu.c */
 int mainmenu();
-int updoneline();		       /* display.c */
+int updoneline();		  /* display.c */
 int initmenus();
