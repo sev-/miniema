@@ -1,177 +1,175 @@
 /*
- *  $Id: etype.h,v 1.3 1994/06/27 11:18:43 sev Exp $
- *
- * ---------------------------------------------------------- 
- *
+ * $Id: etype.h,v 1.4 1994/08/15 20:42:11 sev Exp $
+ * 
+ * ----------------------------------------------------------
+ * 
  * $Log: etype.h,v $
- * Revision 1.3  1994/06/27 11:18:43  sev
- * Menu...
- *
- * Revision 1.2  1994/06/24  17:22:21  sev
- * Added mainmenu and ttputs proto
- *
- * Revision 1.1  1994/06/24  14:17:12  sev
- * Initial revision
- *
- *
+ * Revision 1.4  1994/08/15 20:42:11  sev
+ * Indented
+ * Revision 1.3  1994/06/27  11:18:43  sev Menu...
+ * 
+ * Revision 1.2  1994/06/24  17:22:21  sev Added mainmenu and ttputs proto
+ * 
+ * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * 
+ * 
  */
- 
-/*	ETYPE:		Global function type definitions for
-			MicroEMACS 3.9
 
-			written by Daniel Lawrence
-			based on code by Dave G. Conroy,
-				Steve Wilhite and George Jones
-*/
+/*
+ * ETYPE:		Global function type definitions for MicroEMACS 3.9
+ * 
+ * written by Daniel Lawrence based on code by Dave G. Conroy, Steve Wilhite and
+ * George Jones
+ */
 
 
 /* ALL global fuction declarations */
 
-BUFFER *NEAR bfind();
-BUFFER *NEAR getdefb();
-char *NEAR bytecopy();
-char *NEAR fixnull();
-char *NEAR int_asc();
-char *NEAR makename();
-int NEAR absv();
-int NEAR eq();
-int NEAR ernd();
-int NEAR fbound();
-int NEAR fexist();
-int NEAR getkey();
-int NEAR nextch();
-int NEAR readpattern();
-int NEAR replaces();
-int NEAR scanner();
-int NEAR tgetc();
-LINE *NEAR lalloc();
-NEAR anycb();
-NEAR asc_int();
-NEAR backchar();
-NEAR backdel();
-NEAR backhunt();
-NEAR backline();
-NEAR backpage();
-NEAR backsearch();
-NEAR bclear();
-NEAR cex();
-NEAR cinsert();
-NEAR copyregion();
-NEAR crypt();
-NEAR ctlxe();
-NEAR ctlxlp();
-NEAR ctlxrp();
-NEAR ctrlg();
-NEAR dcline();
-NEAR delins();
-NEAR ectoc();
-NEAR edinit();
-NEAR editloop();
-NEAR execute();
-NEAR expandp();
-NEAR ffclose();
-NEAR ffgetline();
-NEAR ffputline();
-NEAR ffropen();
-NEAR ffwopen();
-NEAR filesave();
-NEAR forwchar();
-NEAR forwdel();
-NEAR forwhunt();
-NEAR forwline();
-NEAR forwpage();
-NEAR forwsearch();
-NEAR getccol();
-NEAR getcline();
-NEAR getcmd();
-NEAR getgoal();
-NEAR getregion();
-NEAR gotobob();
-NEAR gotobol();
-NEAR gotoeob();
-NEAR gotoeol();
-NEAR gotomark();
-NEAR indent();
-NEAR initchars();
-NEAR insspace();
-NEAR kdelete();
-NEAR killregion();
-NEAR killtext();
-NEAR kinsert();
-NEAR lchange();
-NEAR ldelete();
-NEAR ldelnewline();
-NEAR lfree();
-NEAR linsert();
-NEAR linstr();
-NEAR lnewline();
-NEAR meexit();
-NEAR meta();
-NEAR mlerase();
-NEAR mlout();
-NEAR mlputf();
-NEAR mlputi();
-NEAR mlputli();
-NEAR mlputs();
-NEAR mlyesno();
-NEAR modeline();
-NEAR movecursor();
-NEAR newline();
-NEAR nextbuffer();
-NEAR nullproc();
-NEAR qreplace();
-NEAR quickexit();
-NEAR quit();
-NEAR quote();
-NEAR rdonly();
-NEAR readin();
-NEAR reframe();
-NEAR refresh();
-NEAR resterr();
-NEAR rvstrcpy();
-NEAR savematch();
-NEAR setjtable();
-NEAR setmark();
-NEAR spawncli();
-NEAR sreplace();
-NEAR swbuffer();
-NEAR tab();
-NEAR ttclose();
-NEAR ttflush();
-NEAR ttgetc();
-NEAR ttopen();
-NEAR ttputc();
-NEAR typahead();
-NEAR unqname();
-NEAR updall();
-NEAR update();
-NEAR updateline();
-NEAR upddex();
-NEAR updext();
-NEAR updgar();
-NEAR updone();
-NEAR updpos();
-NEAR updupd();
-NEAR upmode();
-NEAR upscreen();
-NEAR vteeol();
-NEAR vtinit();
-NEAR vtmove();
-NEAR vtputc();
-NEAR vttidy();
-NEAR writeout();
-NEAR yank();
-NEAR zotbuf();
-unsigned int NEAR chcase();
+BUFFER *bfind();
+BUFFER *getdefb();
+char *bytecopy();
+char *fixnull();
+char *int_asc();
+char *makename();
+int absv();
+int eq();
+int ernd();
+int fbound();
+int fexist();
+int getkey();
+int nextch();
+int readpattern();
+int replaces();
+int scanner();
+int tgetc();
+LINE *lalloc();
+int anycb();
+int asc_int();
+int backchar();
+int backdel();
+int backhunt();
+int backline();
+int backpage();
+int backsearch();
+int bclear();
+int cex();
+int cinsert();
+int copyregion();
+int crypt();
+int ctlxe();
+int ctlxlp();
+int ctlxrp();
+int ctrlg();
+int dcline();
+int delins();
+int ectoc();
+int edinit();
+int editloop();
+int execute();
+int expandp();
+int ffclose();
+int ffgetline();
+int ffputline();
+int ffropen();
+int ffwopen();
+int filesave();
+int forwchar();
+int forwdel();
+int forwhunt();
+int forwline();
+int forwpage();
+int forwsearch();
+int getccol();
+int getcline();
+int getcmd();
+int getgoal();
+int getregion();
+int gotobob();
+int gotobol();
+int gotoeob();
+int gotoeol();
+int gotomark();
+int indent();
+int initchars();
+int insspace();
+int kdelete();
+int killregion();
+int killtext();
+int kinsert();
+int lchange();
+int ldelete();
+int ldelnewline();
+int lfree();
+int linsert();
+int linstr();
+int lnewline();
+int meexit();
+int meta();
+int mlerase();
+int mlout();
+int mlputf();
+int mlputi();
+int mlputli();
+int mlputs();
+int mlyesno();
+int modeline();
+int movecursor();
+int newline();
+int nextbuffer();
+int nullproc();
+int qreplace();
+int quickexit();
+int quit();
+int quote();
+int rdonly();
+int readin();
+int reframe();
+int refresh();
+int resterr();
+int rvstrcpy();
+int savematch();
+int setjtable();
+int setmark();
+int spawncli();
+int sreplace();
+int swbuffer();
+int tab();
+int ttclose();
+int ttflush();
+int ttgetc();
+int ttopen();
+int ttputc();
+int typahead();
+int unqname();
+int updall();
+int update();
+int updateline();
+int upddex();
+int updext();
+int updgar();
+int updone();
+int updpos();
+int updupd();
+int upmode();
+int upscreen();
+int vteeol();
+int vtinit();
+int vtmove();
+int vtputc();
+int vttidy();
+int writeout();
+int yank();
+int zotbuf();
+unsigned int chcase();
 KEYTAB *getbind();
 
-char NEAR upperc();
+char upperc();
 
-int NEAR islower();
-int NEAR isupper();
-int NEAR isletter();
+int islower();
+int isupper();
+int isletter();
 
-CDECL NEAR mlwrite();
+int mlwrite();
 
 /* some library redefinitions */
 
@@ -180,6 +178,6 @@ char *strcpy();
 char *malloc();
 
 /* menu.c */
-NEAR mainmenu();
-NEAR updoneline();	/* display.c */
-NEAR initmenus();
+int mainmenu();
+int updoneline();		       /* display.c */
+int initmenus();

@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.3 1994/06/28 16:27:33 sev Exp $
+#  $Id: makefile,v 1.4 1994/08/15 20:42:11 sev Exp $
 #
 # ---------------------------------------------------------- 
 #
 # $Log: makefile,v $
-# Revision 1.3  1994/06/28 16:27:33  sev
+# Revision 1.4  1994/08/15 20:42:11  sev
+# Indented
+#
+# Revision 1.3  1994/06/28  16:27:33  sev
 # Last time I forgot english.h :-(
 #
 # Revision 1.2  1994/06/24  17:22:21  sev
@@ -16,8 +19,8 @@
 #
 #
  
-CC=		rcc
-CFLAGS=
+CC=		gcc
+CFLAGS=		-O6
 
 OFILES=		basic.o buffer.o char.o display.o\
 		file.o fileio.o input.o line.o main.o menu.o\

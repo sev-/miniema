@@ -1,15 +1,16 @@
 /*
- *  $Id: basic.c,v 1.1 1994/06/24 14:17:12 sev Exp $
- *
- * ---------------------------------------------------------- 
- *
+ * $Id: basic.c,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * 
+ * ----------------------------------------------------------
+ * 
  * $Log: basic.c,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
- * Initial revision
- *
- *
+ * Revision 1.2  1994/08/15 20:42:11  sev
+ * Indented
+ * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * 
+ * 
  */
- 
+
 /*
  * The routines in this file move the cursor around on the screen. They
  * compute a new value for the cursor, then adjust ".". The display code
@@ -23,15 +24,11 @@
 #include	"edef.h"
 #include	"english.h"
 
-/*
- * Move the cursor to the
- * beginning of the current line.
- * Trivial.
- */
-PASCAL NEAR gotobol(f, n)
+/* Move the cursor to the beginning of the current line. Trivial. */
+int gotobol(f, n)
 {
-	curwp->w_doto  = 0;
-	return(TRUE);
+  curwp->w_doto = 0;
+  return (TRUE);
 }
 
 /*
@@ -40,33 +37,34 @@ PASCAL NEAR gotobol(f, n)
  * location. Error if you try and move out of the buffer. Set the flag if the
  * line pointer for dot changes.
  */
-PASCAL NEAR backchar(f, n)
-register int	n;
+int backchar(f, n)
+register int n;
 {
-	register LINE	*lp;
+  register LINE *lp;
 
-	if (n < 0)
-		return(forwchar(f, -n));
-	while (n--) {
-		if (curwp->w_doto == 0) {
-			if ((lp=lback(curwp->w_dotp)) == curbp->b_linep)
-				return(FALSE);
-			curwp->w_dotp  = lp;
-			curwp->w_doto  = llength(lp);
-			curwp->w_flag |= WFMOVE;
-		} else
-			curwp->w_doto--;
-	}
-	return(TRUE);
+  if (n < 0)
+    return (forwchar(f, -n));
+  while (n--)
+  {
+    if (curwp->w_doto == 0)
+    {
+      if ((lp = lback(curwp->w_dotp)) == curbp->b_linep)
+	return (FALSE);
+      curwp->w_dotp = lp;
+      curwp->w_doto = llength(lp);
+      curwp->w_flag |= WFMOVE;
+    }
+    else
+      curwp->w_doto--;
+  }
+  return (TRUE);
 }
 
-/*
- * Move the cursor to the end of the current line. Trivial. No errors.
- */
-PASCAL NEAR gotoeol(f, n)
+/* Move the cursor to the end of the current line. Trivial. No errors. */
+int gotoeol(f, n)
 {
-	curwp->w_doto  = llength(curwp->w_dotp);
-	return(TRUE);
+  curwp->w_doto = llength(curwp->w_dotp);
+  return (TRUE);
 }
 
 /*
@@ -75,22 +73,25 @@ PASCAL NEAR gotoeol(f, n)
  * location, and move ".". Error if you try and move off the end of the
  * buffer. Set the flag if the line pointer for dot changes.
  */
-PASCAL NEAR forwchar(f, n)
-register int	n;
+int forwchar(f, n)
+register int n;
 {
-	if (n < 0)
-		return(backchar(f, -n));
-	while (n--) {
-		if (curwp->w_doto == llength(curwp->w_dotp)) {
-			if (curwp->w_dotp == curbp->b_linep)
-				return(FALSE);
-			curwp->w_dotp  = lforw(curwp->w_dotp);
-			curwp->w_doto  = 0;
-			curwp->w_flag |= WFMOVE;
-		} else
-			curwp->w_doto++;
-	}
-	return(TRUE);
+  if (n < 0)
+    return (backchar(f, -n));
+  while (n--)
+  {
+    if (curwp->w_doto == llength(curwp->w_dotp))
+    {
+      if (curwp->w_dotp == curbp->b_linep)
+	return (FALSE);
+      curwp->w_dotp = lforw(curwp->w_dotp);
+      curwp->w_doto = 0;
+      curwp->w_flag |= WFMOVE;
+    }
+    else
+      curwp->w_doto++;
+  }
+  return (TRUE);
 }
 
 /*
@@ -98,12 +99,12 @@ register int	n;
  * considered to be hard motion; it really isn't if the original value of dot
  * is the same as the new value of dot. Normally bound to "M-<".
  */
-PASCAL NEAR gotobob(f, n)
+int gotobob(f, n)
 {
-	curwp->w_dotp  = lforw(curbp->b_linep);
-	curwp->w_doto  = 0;
-	curwp->w_flag |= WFHARD;
-	return(TRUE);
+  curwp->w_dotp = lforw(curbp->b_linep);
+  curwp->w_doto = 0;
+  curwp->w_flag |= WFHARD;
+  return (TRUE);
 }
 
 /*
@@ -111,12 +112,12 @@ PASCAL NEAR gotobob(f, n)
  * (ZJ). The standard screen code does most of the hard parts of update.
  * Bound to "M->".
  */
-PASCAL NEAR gotoeob(f, n)
+int gotoeob(f, n)
 {
-	curwp->w_dotp  = curbp->b_linep;
-	curwp->w_doto  = 0;
-	curwp->w_flag |= WFHARD;
-	return(TRUE);
+  curwp->w_dotp = curbp->b_linep;
+  curwp->w_doto = 0;
+  curwp->w_flag |= WFHARD;
+  return (TRUE);
 }
 
 /*
@@ -125,73 +126,71 @@ PASCAL NEAR gotoeob(f, n)
  * controls how the goal column is set. Bound to "C-N". No errors are
  * possible.
  */
-PASCAL NEAR forwline(f, n)
+int forwline(f, n)
 {
-	register LINE	*dlp;
+  register LINE *dlp;
 
-	if (n < 0)
-		return(backline(f, -n));
+  if (n < 0)
+    return (backline(f, -n));
 
-	/* if we are on the last line as we start....fail the command */
-	if (curwp->w_dotp == curbp->b_linep)
-		return(FALSE);
+  /* if we are on the last line as we start....fail the command */
+  if (curwp->w_dotp == curbp->b_linep)
+    return (FALSE);
 
-	/* if the last command was not note a line move,
-	   reset the goal column */
-	if ((lastflag&CFCPCN) == 0)
-		curgoal = getccol(FALSE);
+  /* if the last command was not note a line move, reset the goal column */
+  if ((lastflag & CFCPCN) == 0)
+    curgoal = getccol(FALSE);
 
-	/* flag this command as a line move */
-	thisflag |= CFCPCN;
+  /* flag this command as a line move */
+  thisflag |= CFCPCN;
 
-	/* and move the point down */
-	dlp = curwp->w_dotp;
-	while (n-- && dlp!=curbp->b_linep)
-		dlp = lforw(dlp);
+  /* and move the point down */
+  dlp = curwp->w_dotp;
+  while (n-- && dlp != curbp->b_linep)
+    dlp = lforw(dlp);
 
-	/* reseting the current position */
-	curwp->w_dotp  = dlp;
-	curwp->w_doto  = getgoal(dlp);
-	curwp->w_flag |= WFMOVE;
-	return(TRUE);
+  /* reseting the current position */
+  curwp->w_dotp = dlp;
+  curwp->w_doto = getgoal(dlp);
+  curwp->w_flag |= WFMOVE;
+  return (TRUE);
 }
 
 /*
- * This function is like "forwline", but goes backwards. The scheme is exactly
- * the same. Check for arguments that are less than zero and call your
- * alternate. Figure out the new line and call "movedot" to perform the
+ * This function is like "forwline", but goes backwards. The scheme is
+ * exactly the same. Check for arguments that are less than zero and call
+ * your alternate. Figure out the new line and call "movedot" to perform the
  * motion. No errors are possible. Bound to "C-P".
  */
-PASCAL NEAR backline(f, n)
+int backline(f, n)
 {
-	register LINE	*dlp;
+  register LINE *dlp;
 
-	if (n < 0)
-		return(forwline(f, -n));
+  if (n < 0)
+    return (forwline(f, -n));
 
 
-	/* if we are on the last line as we start....fail the command */
-	if (lback(curwp->w_dotp) == curbp->b_linep)
-		return(FALSE);
+  /* if we are on the last line as we start....fail the command */
+  if (lback(curwp->w_dotp) == curbp->b_linep)
+    return (FALSE);
 
-	/* if the last command was not note a line move,
-	   reset the goal column */
-	if ((lastflag&CFCPCN) == 0)
-		curgoal = getccol(FALSE);
+  /* if the last command was not note a line move, reset the goal column */
+  if ((lastflag & CFCPCN) == 0)
+    curgoal = getccol(FALSE);
 
-	/* flag this command as a line move */
-	thisflag |= CFCPCN;
+  /* flag this command as a line move */
+  thisflag |= CFCPCN;
 
-	/* and move the point up */
-	dlp = curwp->w_dotp;
-	while (n-- && lback(dlp)!=curbp->b_linep)
-		dlp = lback(dlp);
+  /* and move the point up */
+  dlp = curwp->w_dotp;
+  while (n-- && lback(dlp) != curbp->b_linep)
+    dlp = lback(dlp);
 
-	/* reseting the current position */
-	curwp->w_dotp  = dlp;
-	curwp->w_doto  = getgoal(dlp);
-	curwp->w_flag |= WFMOVE;
-	return(TRUE);
+  /* reseting the current position */
+  curwp->w_dotp = dlp;
+  curwp->w_doto = getgoal(dlp);
+  curwp->w_flag |= WFMOVE;
+  return (TRUE);
 }
 
 /*
@@ -199,30 +198,31 @@ PASCAL NEAR backline(f, n)
  * column, return the best choice for the offset. The offset is returned.
  * Used by "C-N" and "C-P".
  */
-PASCAL NEAR getgoal(dlp)
-register LINE	*dlp;
+int getgoal(dlp)
+register LINE *dlp;
 {
-	register int	c;
-	register int	col;
-	register int	newcol;
-	register int	dbo;
+  register int c;
+  register int col;
+  register int newcol;
+  register int dbo;
 
-	col = 0;
-	dbo = 0;
-	while (dbo != llength(dlp)) {
-		c = lgetc(dlp, dbo);
-		newcol = col;
-		if (c == '\t')
-			newcol += -(newcol % tabsize) + (tabsize - 1);
-		else if (c<0x20 || c==0x7F)
-			++newcol;
-		++newcol;
-		if (newcol > curgoal)
-			break;
-		col = newcol;
-		++dbo;
-	}
-	return(dbo);
+  col = 0;
+  dbo = 0;
+  while (dbo != llength(dlp))
+  {
+    c = lgetc(dlp, dbo);
+    newcol = col;
+    if (c == '\t')
+      newcol += -(newcol % tabsize) + (tabsize - 1);
+    else if (c < 0x20 || c == 0x7F)
+      ++newcol;
+    ++newcol;
+    if (newcol > curgoal)
+      break;
+    col = newcol;
+    ++dbo;
+  }
+  return (dbo);
 }
 
 /*
@@ -231,27 +231,29 @@ register LINE	*dlp;
  * the overlap; this value is the default overlap value in ITS EMACS. Because
  * this zaps the top line in the display window, we have to do a hard update.
  */
-PASCAL NEAR forwpage(f, n)
-register int	n;
+int forwpage(f, n)
+register int n;
 {
-	register LINE	*lp;
+  register LINE *lp;
 
-	if (f == FALSE) {
-		n = curwp->w_ntrows - 2;	/* Default scroll.	*/
-		if (n <= 0)			/* Forget the overlap	*/
-			n = 1;			/* if tiny window.	*/
-	} else if (n < 0)
-		return(backpage(f, -n));
-	else					/* Convert from pages	*/
-		n *= curwp->w_ntrows;		/* to lines.		*/
-	lp = curwp->w_linep;
-	while (n-- && lp!=curbp->b_linep)
-		lp = lforw(lp);
-	curwp->w_linep = lp;
-	curwp->w_dotp  = lp;
-	curwp->w_doto  = 0;
-	curwp->w_flag |= WFHARD;
-	return(TRUE);
+  if (f == FALSE)
+  {
+    n = curwp->w_ntrows - 2;	       /* Default scroll.	 */
+    if (n <= 0)			       /* Forget the overlap	 */
+      n = 1;			       /* if tiny window.	 */
+  }
+  else if (n < 0)
+    return (backpage(f, -n));
+  else				       /* Convert from pages	 */
+    n *= curwp->w_ntrows;	       /* to lines.		 */
+  lp = curwp->w_linep;
+  while (n-- && lp != curbp->b_linep)
+    lp = lforw(lp);
+  curwp->w_linep = lp;
+  curwp->w_dotp = lp;
+  curwp->w_doto = 0;
+  curwp->w_flag |= WFHARD;
+  return (TRUE);
 }
 
 /*
@@ -260,73 +262,71 @@ register int	n;
  * EMACS manual. Bound to "M-V". We do a hard update for exactly the same
  * reason.
  */
-PASCAL NEAR backpage(f, n)
-
+int backpage(f, n)
 register int f;
 register int n;
-
 {
-	register LINE	*lp;
+  register LINE *lp;
 
-	if (f == FALSE) {
-		n = curwp->w_ntrows - 2;	/* Default scroll.	*/
-		if (n <= 0)			/* Don't blow up if the */
-			n = 1;			/* window is tiny.	*/
-	} else if (n < 0)
-		return(forwpage(f, -n));
-	else					/* Convert from pages	*/
-		n *= curwp->w_ntrows;		/* to lines.		*/
-	lp = curwp->w_linep;
-	while (n-- && lback(lp)!=curbp->b_linep)
-		lp = lback(lp);
-	curwp->w_linep = lp;
-	curwp->w_dotp  = lp;
-	curwp->w_doto  = 0;
-	curwp->w_flag |= WFHARD;
-	return(TRUE);
+  if (f == FALSE)
+  {
+    n = curwp->w_ntrows - 2;	       /* Default scroll.	 */
+    if (n <= 0)			       /* Don't blow up if the */
+      n = 1;			       /* window is tiny.	 */
+  }
+  else if (n < 0)
+    return (forwpage(f, -n));
+  else				       /* Convert from pages	 */
+    n *= curwp->w_ntrows;	       /* to lines.		 */
+  lp = curwp->w_linep;
+  while (n-- && lback(lp) != curbp->b_linep)
+    lp = lback(lp);
+  curwp->w_linep = lp;
+  curwp->w_dotp = lp;
+  curwp->w_doto = 0;
+  curwp->w_flag |= WFHARD;
+  return (TRUE);
 }
 
 /*
  * Set the mark in the current window to the value of "." in the window. No
  * errors are possible. Bound to "M-.".
  */
-PASCAL NEAR setmark(f, n)
+int setmark(f, n)
 {
-	/* make sure it is in range */
-	if (f == FALSE)
-		n = 0;
-	n %= NMARKS;
+  /* make sure it is in range */
+  if (f == FALSE)
+    n = 0;
+  n %= NMARKS;
 
-	curwp->w_markp[n] = curwp->w_dotp;
-	curwp->w_marko[n] = curwp->w_doto;
-	mlwrite(TEXT9, n);
-/*		"[Mark %d set]" */
-	return(TRUE);
+  curwp->w_markp[n] = curwp->w_dotp;
+  curwp->w_marko[n] = curwp->w_doto;
+  mlwrite(TEXT9, n);
+  /* "[Mark %d set]" */
+  return (TRUE);
 }
 
 /*
- * Goto a mark in the current window. This is pretty easy, bacause all of
- * the hard work gets done by the standard routine that moves the mark
- * about. The only possible error is "no mark". Bound to "M-^G".
+ * Goto a mark in the current window. This is pretty easy, bacause all of the
+ * hard work gets done by the standard routine that moves the mark about. The
+ * only possible error is "no mark". Bound to "M-^G".
  */
-PASCAL NEAR gotomark(f, n)
-
-int f, n;	/* default and nemeric args */
-
+int gotomark(f, n)
+int f, n;			       /* default and nemeric args */
 {
-	/* make sure it is in range */
-	if (f == FALSE)
-		n = 0;
-	n %= NMARKS;
+  /* make sure it is in range */
+  if (f == FALSE)
+    n = 0;
+  n %= NMARKS;
 
-	if (curwp->w_markp[n] == (LINE *)NULL) {
-		mlwrite(TEXT11, n);
-/*			"No mark %d in this window" */
-		return(FALSE);
-	}
-	curwp->w_dotp  = curwp->w_markp[n];
-	curwp->w_doto  = curwp->w_marko[n];
-	curwp->w_flag |= WFMOVE;
-	return(TRUE);
+  if (curwp->w_markp[n] == (LINE *) NULL)
+  {
+    mlwrite(TEXT11, n);
+    /* "No mark %d in this window" */
+    return (FALSE);
+  }
+  curwp->w_dotp = curwp->w_markp[n];
+  curwp->w_doto = curwp->w_marko[n];
+  curwp->w_flag |= WFMOVE;
+  return (TRUE);
 }
-

@@ -1,20 +1,21 @@
 /*
- *  $Id: english.h,v 1.1 1994/06/24 14:17:12 sev Exp $
- *
- * ---------------------------------------------------------- 
- *
+ * $Id: english.h,v 1.2 1994/08/15 20:42:11 sev Exp $
+ * 
+ * ----------------------------------------------------------
+ * 
  * $Log: english.h,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
- * Initial revision
- *
- *
+ * Revision 1.2  1994/08/15 20:42:11  sev
+ * Indented
+ * Revision 1.1  1994/06/24  14:17:12  sev Initial revision
+ * 
+ * 
  */
- 
-/*	ENGLISH.H:	English language text strings for
-			MicroEMACS 3.10
 
-			(C)opyright 1988 by Daniel Lawrence
-*/
+/*
+ * ENGLISH.H:	English language text strings for MicroEMACS 3.10
+ * 
+ * (C)opyright 1988 by Daniel Lawrence
+ */
 
 #define TEXT8	"[Aborted]"
 #define	TEXT9	"[Mark %d set]"
