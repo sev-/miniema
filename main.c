@@ -1,10 +1,13 @@
 /*
- *  $Id: main.c,v 1.1 1994/06/24 14:17:12 sev Exp $
+ *  $Id: main.c,v 1.2 1994/06/27 11:18:43 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: main.c,v $
- * Revision 1.1  1994/06/24 14:17:12  sev
+ * Revision 1.2  1994/06/27 11:18:43  sev
+ * Menu...
+ *
+ * Revision 1.1  1994/06/24  14:17:12  sev
  * Initial revision
  *
  *
@@ -77,6 +80,7 @@ char *argv[];	/* argument strings */
 		goto abortrun;
 	edinit("main");        /* Buffers, windows */
 	initchars();		/* character set definitions */
+	initmenus();
 
 	/* Process the command line and let the user edit */
 	dcline(argc, argv);
